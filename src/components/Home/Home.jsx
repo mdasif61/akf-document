@@ -3,10 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useState } from "react";
 import useMember from "../../hooks/useMember";
+import { useMutation } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 
 const Home = () => {
     const [showMenu, setShowMenu] = useState(false);
     const [showPage, setShowPage] = useState(false);
+    const [showDelete, setShowDelete] = useState(false);
+    const [rowId, setRowId] = useState(null);
     const { refetch, member } = useMember();
 
     const handleSubmit = (e) => {
@@ -39,6 +43,38 @@ const Home = () => {
             }).catch(err => {
                 console.log(err)
             })
+    };
+
+    const mutation = useMutation(
+        async (id) => {
+            try {
+                const res = await axios.delete(`http://localhost:5000/api/member/delete-member/${id}`)
+                return res.data;
+            } catch (error) {
+                console.log(`Error delete member: ${error}`)
+                throw error;
+            }
+        }, {
+        onSuccess: (data) => {
+            if (data.deletedCount > 0) {
+                refetch()
+            }
+        }
+    }
+    )
+
+    const removeRow = (memberId) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Delete'
+        }).then((result) => {
+            if (result.isConfirmed) {
+            mutation.mutate(memberId)
+            }
+        })
     }
 
     return (
@@ -85,30 +121,37 @@ const Home = () => {
                                 <tbody>
                                     {
                                         member?.map((user) => (
-                                            <tr key={user._id}>
+                                            <tr onMouseOver={() => {
+                                                setRowId(user._id)
+                                                setShowDelete(true);
+                                            }} onMouseOut={() => {
+                                                setShowDelete(false);
+                                                setRowId(null)
+                                            }} key={user._id}>
                                                 <td className="border">
-                                                    <input className="w-full h-full border-none outline-none" type="text" name="name"  placeholder="Name" id="" />
+                                                    <input className="w-full bg-white h-full border-none outline-none" type="text" name="name" placeholder="Name" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input className="w-full h-full border-none outline-none" type="text" name="" placeholder="Mobile" id="" />
+                                                    <input className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Mobile" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input className="w-full h-full border-none outline-none" type="text" name="" placeholder="Date" id="" />
+                                                    <input className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Date" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input className="w-full h-full border-none outline-none" type="text" name="" placeholder="Share Number" id="" />
+                                                    <input className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Share Number" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input className="w-full h-full border-none outline-none" type="text" name="" placeholder="Montly Fee" id="" />
+                                                    <input className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Montly Fee" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input className="w-full h-full border-none outline-none" type="text" name="" placeholder="I.F" id="" />
+                                                    <input className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="I.F" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input className="w-full h-full border-none outline-none" type="text" name="" placeholder="Penalty" id="" />
+                                                    <input className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Penalty" id="" />
                                                 </td>
-                                                <td className="border">
-                                                    <input className="w-full h-full border-none outline-none" type="text" name="" placeholder="Total" id="" />
+                                                <td className="border relative">
+                                                    <input className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Total" id="" />
+                                                    <button onClick={() => removeRow(user._id)} className={`border-none ${showDelete && rowId == user._id ? '' : 'hidden'} outline-none absolute right-3`}>X</button>
                                                 </td>
                                             </tr>
                                         ))
