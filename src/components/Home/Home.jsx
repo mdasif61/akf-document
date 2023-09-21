@@ -148,28 +148,28 @@ const Home = () => {
                                                 setRowId(null)
                                             }} key={user._id}>
                                                 <td className="border">
-                                                    <input onChange={(e) => updateMember(user._id, e.target.value)} className="w-full bg-white h-full border-none outline-none" type="text" name="name" placeholder="Name" id="" />
+                                                    <input onChange={(e) => updateMember(user._id, { name: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="name" placeholder="Name" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input onChange={(e) => updateMember(user._id, e.target.value)} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Mobile" id="" />
+                                                    <input onChange={(e) => updateMember(user._id, { mobile: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Mobile" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input onChange={(e) => updateMember(user._id, e.target.value)} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Date" id="" />
+                                                    <input onChange={(e) => updateMember(user._id, { date: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Date" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input onChange={(e) => updateMember(user._id, e.target.value)} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Share Number" id="" />
+                                                    <input onChange={(e) => updateMember(user._id, { share: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Share Number" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input onChange={(e) => updateMember(user._id, e.target.value)} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Montly Fee" id="" />
+                                                    <input onChange={(e) => updateMember(user._id, { fee: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Montly Fee" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input onChange={(e) => updateMember(user._id, e.target.value)} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="I.F" id="" />
+                                                    <input onChange={(e) => updateMember(user._id, { ifound: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="I.F" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input onChange={(e) => updateMember(user._id, e.target.value)} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Penalty" id="" />
+                                                    <input onChange={(e) => updateMember(user._id, { penalty: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Penalty" id="" />
                                                 </td>
                                                 <td className="border relative">
-                                                    <input onChange={(e) => updateMember(user._id, e.target.value)} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Total" id="" />
+                                                    <input onChange={(e) => updateMember(user._id, { total: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Total" id="" />
                                                     <button onClick={() => removeRow(user._id)} className={`border-none ${showDelete && rowId == user._id ? '' : 'hidden'} outline-none absolute right-3`}>X</button>
                                                 </td>
                                             </tr>
