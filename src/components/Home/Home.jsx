@@ -72,9 +72,28 @@ const Home = () => {
             confirmButtonText: 'Delete'
         }).then((result) => {
             if (result.isConfirmed) {
-            mutation.mutate(memberId)
+                mutation.mutate(memberId)
             }
         })
+    };
+
+    const updateMutaton = useMutation(
+        async ({ id, data }) => {
+            try {
+                const res = await axios.patch(`http://localhost:5000/api/member/update-member/${id}`, { data: data });
+                return res.data;
+            } catch (error) {
+                console.log(`Error update member : ${error}`)
+            }
+        }, {
+        onSuccess: (data) => {
+            console.log(data)
+        }
+    }
+    );
+
+    const updateMember = (id, data) => {
+        updateMutaton.mutate({ id, data })
     }
 
     return (
@@ -129,28 +148,28 @@ const Home = () => {
                                                 setRowId(null)
                                             }} key={user._id}>
                                                 <td className="border">
-                                                    <input className="w-full bg-white h-full border-none outline-none" type="text" name="name" placeholder="Name" id="" />
+                                                    <input onChange={(e) => updateMember(user._id, e.target.value)} className="w-full bg-white h-full border-none outline-none" type="text" name="name" placeholder="Name" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Mobile" id="" />
+                                                    <input onChange={(e) => updateMember(user._id, e.target.value)} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Mobile" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Date" id="" />
+                                                    <input onChange={(e) => updateMember(user._id, e.target.value)} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Date" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Share Number" id="" />
+                                                    <input onChange={(e) => updateMember(user._id, e.target.value)} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Share Number" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Montly Fee" id="" />
+                                                    <input onChange={(e) => updateMember(user._id, e.target.value)} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Montly Fee" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="I.F" id="" />
+                                                    <input onChange={(e) => updateMember(user._id, e.target.value)} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="I.F" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Penalty" id="" />
+                                                    <input onChange={(e) => updateMember(user._id, e.target.value)} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Penalty" id="" />
                                                 </td>
                                                 <td className="border relative">
-                                                    <input className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Total" id="" />
+                                                    <input onChange={(e) => updateMember(user._id, e.target.value)} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Total" id="" />
                                                     <button onClick={() => removeRow(user._id)} className={`border-none ${showDelete && rowId == user._id ? '' : 'hidden'} outline-none absolute right-3`}>X</button>
                                                 </td>
                                             </tr>
