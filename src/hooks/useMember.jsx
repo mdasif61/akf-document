@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const useMember = () => {
-    const {data:member=[], refetch}=useQuery(['members'],
+    const {data:member=[], refetch, isSuccess,isFetched}=useQuery(['members'],
     async()=>{
         try {
             const res=await axios.get(`http://localhost:5000/api/member/members`);
@@ -12,7 +12,7 @@ const useMember = () => {
         }
     }
     );
-    return {member,refetch}
+    return {member,refetch,isFetched,isSuccess}
 };
 
 export default useMember;

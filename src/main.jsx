@@ -5,6 +5,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Main from './components/layout/Main';
 import Home from './components/Home/Home';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Pages from './components/pages/Pages';
+import Invoice from './components/pages/Invoice';
 
 const router = createBrowserRouter([
   {
@@ -14,6 +16,14 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />
+      },
+      {
+        path:'/pages',
+        element:<Pages/>
+      },
+      {
+        path:'/invoice/:id',
+        element:<Invoice/>
       }
     ]
   }

@@ -1,17 +1,22 @@
-import { faPager, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faFileLines, faPager, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useState } from "react";
 import useMember from "../../hooks/useMember";
 import { useMutation } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const Home = () => {
     const [showMenu, setShowMenu] = useState(false);
     const [showPage, setShowPage] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
     const [rowId, setRowId] = useState(null);
-    const { refetch, member } = useMember();
+    const { refetch, member,isFetched,isSuccess } = useMember();
+    console.log(member)
+    if(isFetched || isSuccess){
+        console.log(member)
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -21,10 +26,10 @@ const Home = () => {
         const year = form.year.value;
         console.log(month, account, year)
 
-        axios.post(`http://localhost:5000/api/member/pages`,{month,account,year,member})
-        .then(res=>{
-            console.log(res.data)
-        })
+        axios.post(`http://localhost:5000/api/member/pages`, { month, account, year, member })
+            .then(res => {
+                console.log(res.data)
+            })
 
     }
 
@@ -36,7 +41,10 @@ const Home = () => {
         fee: '',
         ifound: '',
         penalty: '',
-        total: ''
+        total: '',
+        month: '',
+        account: '',
+        year: ''
     }
 
     const addMembers = () => {
@@ -93,7 +101,8 @@ const Home = () => {
             }
         }, {
         onSuccess: (data) => {
-            console.log(data)
+            refetch()
+            // console.log(data)
         }
     }
     );
@@ -113,21 +122,25 @@ const Home = () => {
                 </div>}
                 {
                     showPage && <div className="w-full">
-                        <form onSubmit={handleSubmit} className="items-center flex p-5 top-20 bg-white justify-between">
-                            <div>
-                                <input className="border h-12 focus:outline-none bg-white py-2 px-4 font-semibold" type="text" name="month" id="" placeholder="MONTH NAME" />
-                            </div>
-                            <div>
-                                <input className="border h-12 focus:outline-none bg-white py-2 px-4 font-semibold" type="text" name="account" id="" placeholder="MONTHLY ACCOUNT" />
-                            </div>
-                            <div>
-                                <input className="border h-12 focus:outline-none bg-white py-2 px-4 font-semibold" type="text" name="year" id="" placeholder="YEAR" />
-                            </div>
-                            <button type="submit" className="btn bg-black h-12 rounded-none text-white">SAVE</button>
-
-                        </form>
+                        {member.slice(0, 1).map((head) => (
+                            <form key={head._id} onSubmit={handleSubmit} className="items-center flex p-5 top-20 bg-blue-600 justify-between">
+                                <div>
+                                    <input defaultValue={head.month} onChange={(e) => updateMember(head._id, { month: e.target.value })} className="h-12 border-b border-white text-white bg-transparent focus:outline-none py-2 font-bold text-xl" type="text" name="month" id="" placeholder="MONTH NAME" />
+                                </div>
+                                <div>
+                                    <input defaultValue={head.account} onChange={(e) => updateMember(head._id, { account: e.target.value })} className="h-12 focus:outline-none bg-transparent text-white border-b border-white py-2 font-bold text-xl" type="text" name="account" id="" placeholder="MONTHLY ACCOUNT" />
+                                </div>
+                                <div>
+                                    <input defaultValue={head.year} onChange={(e) => updateMember(head._id, { year: e.target.value })} className="h-12 focus:outline-none border-b text-white border-white bg-transparent py-2 font-bold text-xl" type="text" name="year" id="" placeholder="YEAR" />
+                                </div>
+                                <button type="submit" className="btn bg-blue-400 border-none outline-none hover:bg-blue-700 h-12 rounded-none text-white">SAVE</button>
+                            </form>
+                        ))}
                         <div className="bg-blue-500 p-2">
                             <button onClick={addMembers} className="text-white"><FontAwesomeIcon icon={faPlus} /> Add Member</button>
+                            <Link to='/pages'>
+                                <button className="text-white ml-4 hover:underline"><FontAwesomeIcon icon={faFileLines} /> Pages</button>
+                            </Link>
                         </div>
                         <div className="overflow-x-auto bg-white">
                             <table className="table table-xs">
