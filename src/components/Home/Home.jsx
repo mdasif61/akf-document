@@ -12,10 +12,9 @@ const Home = () => {
     const [showPage, setShowPage] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
     const [rowId, setRowId] = useState(null);
-    const { refetch, member,isFetched,isSuccess } = useMember();
-    console.log(member)
-    if(isFetched || isSuccess){
-        console.log(member)
+    const { refetch, member, isFetched, isSuccess } = useMember();
+    if (isFetched || isSuccess) {
+        // console.log(member)
     }
 
     const handleSubmit = (e) => {
@@ -28,7 +27,7 @@ const Home = () => {
 
         axios.post(`http://localhost:5000/api/member/pages`, { month, account, year, member })
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
             })
 
     }
@@ -52,7 +51,7 @@ const Home = () => {
             .then(res => {
                 refetch()
                 if (res.data._id) {
-                    console.log(res.data._id)
+                    // console.log(res.data._id)
                 }
             }).catch(err => {
                 console.log(err)
