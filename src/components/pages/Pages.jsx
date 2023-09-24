@@ -3,8 +3,8 @@ import SinglePage from "./SinglePage";
 
 const Pages = () => {
 
-    const {pages,isLoading,isFetching}=usePage();
-    
+    const {pages,isLoading,isFetching,refetch}=usePage();
+
     if(isLoading || isFetching){
         return <div className="w-full h-screen flex items-center justify-center"><h1 className="text-white font-semibold">Loading page...</h1></div>
     }
@@ -15,6 +15,7 @@ const Pages = () => {
                 pages?.map((page)=><SinglePage
                 key={page._id}
                 page={page}
+                refetch={refetch}
                 ></SinglePage>)
             }
         </div>

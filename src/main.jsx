@@ -7,6 +7,7 @@ import Home from './components/Home/Home';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Pages from './components/pages/Pages';
 import Invoice from './components/pages/Invoice';
+import EditPage from './components/pages/EditPage';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path:'/invoice/:id',
         element:<Invoice/>
+      },
+      {
+        path:'/editpage/:id',
+        element:<EditPage/>
       }
     ]
   }
