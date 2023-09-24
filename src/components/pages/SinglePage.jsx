@@ -1,10 +1,15 @@
 import { faArrowRight, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import Modal from "../modal/Modal";
 
 const SinglePage = ({ page, refetch }) => {
+
+    const [showModal,setShowModal]=useState(false);
+    const [pageData,setPageData]=useState(null);
 
     const handleRemoveMonth = async (id) => {
         Swal.fire({
@@ -25,6 +30,16 @@ const SinglePage = ({ page, refetch }) => {
         })
     }
 
+    const handleShowModal=(pages)=>{
+        setShowModal(true);
+        setPageData(pages)
+    }
+
+    const handleHideModal=()=>{
+        setShowModal(false);
+        setPageData(null)
+    }
+
     return (
         <div className="w-10/12 mx-auto p-1">
             <div className="w-full flex bg-gradient-to-l from-blue-900 to-blue-500 duration-300 rounded-md hover:bg-blue-700 space-x-4 border py-3 px-5 hover:cursor-pointer">
@@ -39,9 +54,11 @@ const SinglePage = ({ page, refetch }) => {
                 </div>
                 <div className="bg-blue-100 shadow-lg rounded-full px-2 flex items-center justify-center">
                     <FontAwesomeIcon onClick={() => handleRemoveMonth(page._id)} className="text-red-500 mx-2 text-sm hover:text-red-600" icon={faTrash} />
-                    <Link to={`/editpage/${page._id}`}>
-                        <FontAwesomeIcon className="text-blue-500 mx-2 text-sm hover:text-blue-600" icon={faEdit} />
-                    </Link>
+
+                    <FontAwesomeIcon onClick={()=>handleShowModal(page)} className="text-blue-500 mx-2 text-sm hover:text-blue-600" icon={faEdit} />
+
+                    {showModal&&<Modal handleHideModal={handleHideModal} pageData={pageData}/>}
+
                 </div>
                 <div>
                     <Link to={`/invoice/${page._id}`}>
