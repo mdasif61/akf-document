@@ -6,8 +6,10 @@ import useMember from "../../hooks/useMember";
 import { useMutation } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import usePage from "../../hooks/usePage";
 
 const Home = () => {
+    const { pages, refetch: pageRefetch } = usePage()
     const [showMenu, setShowMenu] = useState(false);
     const [showPage, setShowPage] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
@@ -17,17 +19,24 @@ const Home = () => {
         // console.log(member)
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         const form = e.target;
         const month = form.month.value;
         const account = form.account.value;
         const year = form.year.value;
-        console.log(month, account, year)
-
-        axios.post(`http://localhost:5000/api/member/pages`, { month, account, year, member })
+        await axios.post(`http://localhost:5000/api/member/pages`, { month, account, year, member })
             .then(res => {
-                // console.log(res.data)
+                if (res.statusText === 'Created') {
+                    axios.delete('http://localhost:5000/api/member/delete-all')
+                        .then(res => {
+                            if (res.data.deletedCount > 0) {
+                                pageRefetch()
+                                refetch()
+                            }
+
+                        })
+                }
             })
 
     }
@@ -99,7 +108,7 @@ const Home = () => {
                 console.log(`Error update member : ${error}`)
             }
         }, {
-        onSuccess: (data) => {
+        onSuccess: () => {
             refetch()
             // console.log(data)
         }
@@ -138,7 +147,7 @@ const Home = () => {
                         <div className="bg-blue-500 p-2">
                             <button onClick={addMembers} className="text-white"><FontAwesomeIcon icon={faPlus} /> Add Member</button>
                             <Link to='/pages'>
-                                <button className="text-white ml-4 hover:underline"><FontAwesomeIcon icon={faFileLines} /> Pages</button>
+                                <button className="text-white ml-4 hover:underline"><FontAwesomeIcon icon={faFileLines} /> Pages <div className="badge bg-blue-200 border-none p-2 font-bold badge-xs"><span className="absolute ">{pages.length ? pages.length : 0}</span></div></button>
                             </Link>
                         </div>
                         <div className="overflow-x-auto bg-white">
