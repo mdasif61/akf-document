@@ -8,7 +8,6 @@ import { BarChart, Bar, Cell, XAxis, YAxis } from 'recharts';
 const Invoice = () => {
     const { id } = useParams();
     const { pages } = usePage(id);
-
     const penalty = pages?.member?.reduce((sum, page) => sum + page.penalty, 0);
     const fee = pages?.member?.reduce((sum, page) => sum + page.fee, 0);
     const total = pages?.member?.reduce((sum, page) => sum + page.total, 0);
@@ -28,8 +27,11 @@ const Invoice = () => {
     };
 
     const TriangleBar = ({ fill, x, y, width, height }) => {
+        if (isNaN(y)) {
+          y = 0;
+        }
         return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
-    };
+      };
 
     const componentPDF = useRef();
     const generatePdf = useReactToPrint({

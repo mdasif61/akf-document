@@ -13,7 +13,7 @@ const Pages = () => {
 
     useEffect(() => {
         if (searchText.trim() !== '') {
-            axios.get(`http://localhost:5000/api/member/all-page/${searchText}`)
+            axios.get(`http://localhost:5000/api/member/search?text=${searchText}`)
                 .then(res => setData(res.data))
         } else {
             setData([])

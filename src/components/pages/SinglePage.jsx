@@ -7,7 +7,6 @@ import Swal from "sweetalert2";
 import Modal from "../modal/Modal";
 
 const SinglePage = ({ page, refetch }) => {
-
     const [showModal,setShowModal]=useState(false);
     const [pageData,setPageData]=useState(null);
 
