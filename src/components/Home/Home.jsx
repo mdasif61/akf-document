@@ -1,7 +1,7 @@
-import { faFileLines, faPager, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faBorderAll, faFileLines, faPager, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useMember from "../../hooks/useMember";
 import { useMutation } from "@tanstack/react-query";
 import Swal from "sweetalert2";
@@ -14,6 +14,7 @@ const Home = () => {
     const [showPage, setShowPage] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
     const [rowId, setRowId] = useState(null);
+    const menuRef=useRef(null);
     const { refetch, member, isFetched, isSuccess } = useMember();
     if (isFetched || isSuccess) {
         // console.log(member)
@@ -117,16 +118,34 @@ const Home = () => {
 
     const updateMember = (id, data) => {
         updateMutaton.mutate({ id, data })
-    }
+    };
+
+    useEffect(()=>{
+        const handleOutSideClick=(event)=>{
+            if(menuRef.current && !menuRef.current.contains(event.target)){
+                setShowMenu(false)
+            }
+        };
+        document.addEventListener('click',handleOutSideClick);
+        return ()=>{
+            document.removeEventListener('click',handleOutSideClick)
+        }
+    },[])
 
     return (
         <div className="w-full min-h-screen flex items-center justify-center">
             <div className="bg-white relative left-0 top-0 p-5 min-h-[400px] w-full mx-auto bg-opacity-20 ">
-                <div onClick={() => setShowMenu(!showMenu)} className="w-8 mb-3 h-8 cursor-pointer rounded-full border border-white flex items-center justify-center">
+                <div ref={menuRef} onClick={() => setShowMenu(!showMenu)} className="w-8 mb-3 h-8 cursor-pointer rounded-full border border-white flex items-center justify-center">
                     <FontAwesomeIcon className="text-white" icon={faPlus} />
                 </div>
-                {showMenu && <div className="absolute top-10 bg-white w-48 p-4 left-10 rounded-md">
-                    <span onClick={() => setShowPage(true)} className="hover:cursor-pointer"><FontAwesomeIcon className="text-blue-500 mr-2" icon={faPager} /> <span className="text-blue-500 font-semibold">Create New</span></span>
+                {showMenu && <div className="absolute z-50 space-y-2 top-10 bg-white w-48 p-4 left-10 rounded-md">
+                    <p  onClick={() => setShowPage(true)} className="hover:cursor-pointer border-b pb-1 font-semibold text-blue-500"><FontAwesomeIcon className="text-blue-500 mr-2" icon={faPager} />Create page</p>
+                    <p className="border-b pb-1">
+                        <Link to='/pages'>
+                            <span className="font-semibold hover:cursor-pointer"><FontAwesomeIcon icon={faBorderAll} /> All page</span>
+                            <div className="badge bg-black text-white ml-1 border-none p-2 font-bold badge-xs"><span className="absolute ">{pages.length ? pages.length : 0}</span></div>
+                        </Link>
+                    </p>
                 </div>}
                 {
                     showPage && <div className="w-full">

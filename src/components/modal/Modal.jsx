@@ -2,26 +2,35 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { useState } from "react";
 
-const Modal = ({ handleHideModal, pageData }) => {
-
+const Modal = ({ handleHideModal, pageData, refetch }) => {
+    const [modifiCheck,setModifiCheck]=useState(false)
     const monthMutation = useMutation(
-        async ({ id, memberIndex, data }) => {
+        async ({ memberIndex, data }) => {
             try {
-                const res = await axios.patch(`http://localhost:5000/api/member/update-month/${id}`, { data: data, index: memberIndex });
+                const res = await axios.patch(`http://localhost:5000/api/member/update-month/${pageData._id}`, { data: data, index: memberIndex });
                 return res.data;
             } catch (error) {
                 console.log(`Error month update :`, error)
             }
         }, {
         onSuccess: (data) => {
-            console.log(data)
+            if (data.modifiedCount > 0) {
+                setModifiCheck(true)
+            }
         }
     }
     );
 
-    const updateMonth = async (id, memberIndex, data) => {
-        monthMutation.mutate({ id, memberIndex, data })
+    const updateMonth = (memberIndex, data) => {
+        monthMutation.mutate({ memberIndex, data })
+    };
+
+    const handleSavePage=()=>{
+        handleHideModal()
+        refetch();
+        setModifiCheck(false)
     }
 
     return (
@@ -47,34 +56,37 @@ const Modal = ({ handleHideModal, pageData }) => {
                                 pageData?.member?.map((page, index) => (
                                     <tr key={page._id}>
                                         <td className="border">
-                                            <input onChange={(e) => updateMonth(page._id, index, { name: e.target.value })} defaultValue={page.name} className="w-full text-black bg-white h-full border-none outline-none" type="text" name="name" placeholder="Name" id="" />
+                                            <input onChange={(e) => updateMonth(index, { name: e.target.value })} defaultValue={page.name} className="w-full text-black bg-white h-full border-none outline-none" type="text" name="name" placeholder="Name" id="" />
                                         </td>
                                         <td className="border">
-                                            <input onChange={(e) => updateMonth(page._id, index, { mobile: e.target.value })} defaultValue={page.mobile} className="w-full bg-white h-full border-none text-black outline-none" type="text" name="" placeholder="Mobile" id="" />
+                                            <input onChange={(e) => updateMonth(index, { mobile: e.target.value })} defaultValue={page.mobile} className="w-full bg-white h-full border-none text-black outline-none" type="text" name="" placeholder="Mobile" id="" />
                                         </td>
                                         <td className="border">
-                                            <input onChange={(e) => updateMonth(page._id, index, { date: e.target.value })} defaultValue={page.date} className="w-full bg-white h-full border-none text-black outline-none" type="text" name="" placeholder="Date" id="" />
+                                            <input onChange={(e) => updateMonth(index, { date: e.target.value })} defaultValue={page.date} className="w-full bg-white h-full border-none text-black outline-none" type="text" name="" placeholder="Date" id="" />
                                         </td>
                                         <td className="border">
-                                            <input onChange={(e) => updateMonth(page._id, index, { share: e.target.value })} defaultValue={page.share} className="w-full bg-white h-full border-none text-black outline-none" type="text" name="" placeholder="Share Number" id="" />
+                                            <input onChange={(e) => updateMonth(index, { share: e.target.value })} defaultValue={page.share} className="w-full bg-white h-full border-none text-black outline-none" type="text" name="" placeholder="Share Number" id="" />
                                         </td>
                                         <td className="border">
-                                            <input onChange={(e) => updateMonth(page._id, index, { fee: e.target.value })} defaultValue={page.fee} className="w-full bg-white h-full border-none text-black outline-none" type="text" name="" placeholder="Montly Fee" id="" />
+                                            <input onChange={(e) => updateMonth(index, { fee: e.target.value })} defaultValue={page.fee} className="w-full bg-white h-full border-none text-black outline-none" type="text" name="" placeholder="Montly Fee" id="" />
                                         </td>
                                         <td className="border">
-                                            <input onChange={(e) => updateMonth(page._id, index, { ifound: e.target.value })} defaultValue={page.ifound} className="w-full bg-white h-full border-none text-black outline-none" type="text" name="" placeholder="I.F" id="" />
+                                            <input onChange={(e) => updateMonth(index, { ifound: e.target.value })} defaultValue={page.ifound} className="w-full bg-white h-full border-none text-black outline-none" type="text" name="" placeholder="I.F" id="" />
                                         </td>
                                         <td className="border">
-                                            <input onChange={(e) => updateMonth(page._id, index, { penalty: e.target.value })} defaultValue={page.penalty} className="w-full bg-white h-full border-none text-black outline-none" type="text" name="" placeholder="Penalty" id="" />
+                                            <input onChange={(e) => updateMonth(index, { penalty: e.target.value })} defaultValue={page.penalty} className="w-full bg-white h-full border-none text-black outline-none" type="text" name="" placeholder="Penalty" id="" />
                                         </td>
                                         <td className="border relative">
-                                            <input onChange={(e) => updateMonth(page._id, index, { total: e.target.value })} defaultValue={page.total} className="w-full bg-white h-full border-none text-black outline-none" type="text" name="" placeholder="Total" id="" />
+                                            <input onChange={(e) => updateMonth(index, { total: e.target.value })} defaultValue={page.total} className="w-full bg-white h-full border-none text-black outline-none" type="text" name="" placeholder="Total" id="" />
                                         </td>
                                     </tr>
                                 ))
                             }
                         </tbody>
                     </table>
+                </div>
+                <div className="flex justify-end h-full mt-3 w-full">
+                    <button disabled={!modifiCheck} onClick={handleSavePage} className="btn btn-sm bg-blue-500 rounded-none hover:bg-blue-600 text-white">Save Change</button>
                 </div>
             </dialog>
         </div>

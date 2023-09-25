@@ -41,7 +41,7 @@ const SinglePage = ({ page, refetch }) => {
     }
 
     return (
-        <div className="w-10/12 mx-auto p-1">
+        <div className="mx-auto p-1">
             <div className="w-full flex bg-gradient-to-l from-blue-900 to-blue-500 duration-300 rounded-md hover:bg-blue-700 space-x-4 border py-3 px-5 hover:cursor-pointer">
                 <div>
                     <h1 className="text-lg font-bold text-white">{page.month}</h1>
@@ -57,7 +57,7 @@ const SinglePage = ({ page, refetch }) => {
 
                     <FontAwesomeIcon onClick={()=>handleShowModal(page)} className="text-blue-500 mx-2 text-sm hover:text-blue-600" icon={faEdit} />
 
-                    {showModal&&<Modal handleHideModal={handleHideModal} pageData={pageData}/>}
+                    {showModal&&<Modal handleHideModal={handleHideModal} pageData={pageData} refetch={refetch}/>}
 
                 </div>
                 <div>
