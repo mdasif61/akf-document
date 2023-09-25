@@ -14,18 +14,30 @@ const Home = () => {
     const [showPage, setShowPage] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
     const [rowId, setRowId] = useState(null);
-    const menuRef=useRef(null);
-    const { refetch, member, isFetched, isSuccess } = useMember();
-    if (isFetched || isSuccess) {
-        // console.log(member)
-    }
+    const menuRef = useRef(null);
+    const { refetch, member } = useMember();
+    const [month, setMonth] = useState('');
+    const [year, setYear] = useState('');
+    const [account, setAccount] = useState('');
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        const form = e.target;
-        const month = form.month.value;
-        const account = form.account.value;
-        const year = form.year.value;
+    useEffect(() => {
+        member.slice(0, 1).map((head) => {
+            setMonth(head.month);
+            setAccount(head.account);
+            setYear(head.year)
+        })
+    }, [member]);
+
+    const isSaveDisabled = () => {
+        return (
+            !month || !account || !year ||
+            member.some(user =>
+                !user.name || !user.mobile || !user.share || !user.date || !user.fee || !user.ifound || !user.total
+            )
+        );
+    };
+
+    const handleSubmit = async () => {
         await axios.post(`http://localhost:5000/api/member/pages`, { month, account, year, member })
             .then(res => {
                 if (res.statusText === 'Created') {
@@ -120,17 +132,17 @@ const Home = () => {
         updateMutaton.mutate({ id, data })
     };
 
-    useEffect(()=>{
-        const handleOutSideClick=(event)=>{
-            if(menuRef.current && !menuRef.current.contains(event.target)){
+    useEffect(() => {
+        const handleOutSideClick = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
                 setShowMenu(false)
             }
         };
-        document.addEventListener('click',handleOutSideClick);
-        return ()=>{
-            document.removeEventListener('click',handleOutSideClick)
+        document.addEventListener('click', handleOutSideClick);
+        return () => {
+            document.removeEventListener('click', handleOutSideClick)
         }
-    },[])
+    }, [])
 
     return (
         <div className="w-full min-h-screen flex items-center justify-center">
@@ -139,30 +151,43 @@ const Home = () => {
                     <FontAwesomeIcon className="text-white" icon={faPlus} />
                 </div>
                 {showMenu && <div className="absolute z-50 space-y-2 top-10 bg-white w-48 p-4 left-10 rounded-md">
-                    <p  onClick={() => setShowPage(true)} className="hover:cursor-pointer border-b pb-1 font-semibold text-blue-500"><FontAwesomeIcon className="text-blue-500 mr-2" icon={faPager} />Create page</p>
+                    <p onClick={() => setShowPage(true)} className="hover:cursor-pointer border-b pb-1 font-semibold text-blue-500"><FontAwesomeIcon className="text-blue-500 mr-2" icon={faPager} />Create page</p>
                     <p className="border-b pb-1">
                         <Link to='/pages'>
-                            <span className="font-semibold hover:cursor-pointer"><FontAwesomeIcon icon={faBorderAll} /> All page</span>
-                            <div className="badge bg-black text-white ml-1 border-none p-2 font-bold badge-xs"><span className="absolute ">{pages.length ? pages.length : 0}</span></div>
+                            <span className="font-semibold hover:cursor-pointer text-black"><FontAwesomeIcon icon={faBorderAll} /> All page</span>
+                            <span className="badge bg-black text-white ml-1 border-none p-2 font-bold badge-xs"><span className="absolute ">{pages.length ? pages.length : 0}</span></span>
                         </Link>
                     </p>
                 </div>}
+
                 {
                     showPage && <div className="w-full">
-                        {member.slice(0, 1).map((head) => (
-                            <form key={head._id} onSubmit={handleSubmit} className="items-center flex p-5 top-20 bg-blue-600 justify-between">
-                                <div>
-                                    <input defaultValue={head.month} onChange={(e) => updateMember(head._id, { month: e.target.value })} className="h-12 border-b border-white text-white bg-transparent focus:outline-none py-2 font-bold text-xl" type="text" name="month" id="" placeholder="MONTH NAME" />
-                                </div>
-                                <div>
-                                    <input defaultValue={head.account} onChange={(e) => updateMember(head._id, { account: e.target.value })} className="h-12 focus:outline-none bg-transparent text-white border-b border-white py-2 font-bold text-xl" type="text" name="account" id="" placeholder="MONTHLY ACCOUNT" />
-                                </div>
-                                <div>
-                                    <input defaultValue={head.year} onChange={(e) => updateMember(head._id, { year: e.target.value })} className="h-12 focus:outline-none border-b text-white border-white bg-transparent py-2 font-bold text-xl" type="text" name="year" id="" placeholder="YEAR" />
-                                </div>
-                                <button type="submit" className="btn bg-blue-400 border-none outline-none hover:bg-blue-700 h-12 rounded-none text-white">SAVE</button>
-                            </form>
-                        ))}
+                        <div className="flex w-full p-5 bg-blue-600 items-center">
+                            <div className="flex-1">
+                                {member.slice(0, 1).map((head) => {
+                                    return <form key={head._id} className="items-center flex  top-20 justify-between">
+                                        <div>
+                                            <input defaultValue={head.month} onChange={(e) => {
+                                                updateMember(head._id, { month: e.target.value })
+                                            }} className="h-12 border-b border-white text-white bg-transparent focus:outline-none py-2 font-bold text-xl" type="text" name="month" id="" placeholder="MONTH NAME" />
+                                        </div>
+                                        <div>
+                                            <input defaultValue={head.account} onChange={(e) => {
+                                                updateMember(head._id, { account: e.target.value })
+                                            }} className="h-12 focus:outline-none bg-transparent text-white border-b border-white py-2 font-bold text-xl" type="text" name="account" id="" placeholder="MONTHLY ACCOUNT" />
+                                        </div>
+                                        <div>
+                                            <input defaultValue={head.year} onChange={(e) => {
+                                                updateMember(head._id, { year: e.target.value })
+                                            }} className="h-12 focus:outline-none border-b text-white border-white bg-transparent py-2 font-bold text-xl" type="text" name="year" id="" placeholder="YEAR" />
+                                        </div>
+                                    </form>
+                                })}
+                            </div>
+
+                            <button disabled={isSaveDisabled()} onClick={handleSubmit} type="submit" className="btn bg-blue-400 border-none outline-none ml-5 hover:bg-blue-700 h-12 rounded-none text-white">SAVE</button>
+                        </div>
+
                         <div className="bg-blue-500 p-2">
                             <button onClick={addMembers} className="text-white"><FontAwesomeIcon icon={faPlus} /> Add Member</button>
                             <Link to='/pages'>
@@ -172,7 +197,7 @@ const Home = () => {
                         <div className="overflow-x-auto bg-white">
                             <table className="table table-xs">
                                 <thead>
-                                    <tr>
+                                    <tr className="text-black font-semibold bg-blue-200">
                                         <th>Name</th>
                                         <th>Mobile</th>
                                         <th>Date</th>
