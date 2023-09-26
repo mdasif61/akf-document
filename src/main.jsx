@@ -9,6 +9,7 @@ import Pages from './components/pages/Pages';
 import Invoice from './components/pages/Invoice';
 import Login from './components/authentication/Login';
 import Signup from './components/authentication/Signup';
+import { Toaster } from 'react-hot-toast';
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
+      <Toaster/>
     </QueryClientProvider>
   </React.StrictMode>,
 )
