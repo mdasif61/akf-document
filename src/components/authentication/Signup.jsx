@@ -8,7 +8,7 @@ const Signup = () => {
 
     const [loading, setLoading] = useState(false);
     const [photo, setPhoto] = useState('');
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     const photoDetails = (photo) => {
         setLoading(true);
@@ -17,32 +17,32 @@ const Signup = () => {
             return;
         }
 
-        if(photo.type==='image/jpeg' || photo.type==='image/png'){
-            const formData=new FormData();
-            formData.append('file',photo);
-            formData.append('upload_preset','akf_account');
-            formData.append('cloud_name','ikbalhossain');
-            fetch('https://api.cloudinary.com/v1_1/ikbalhossain/image/upload',{
-                method:"POST",
-                body:formData
+        if (photo.type === 'image/jpeg' || photo.type === 'image/png') {
+            const formData = new FormData();
+            formData.append('file', photo);
+            formData.append('upload_preset', 'akf_account');
+            formData.append('cloud_name', 'ikbalhossain');
+            fetch('https://api.cloudinary.com/v1_1/ikbalhossain/image/upload', {
+                method: "POST",
+                body: formData
             })
-            .then(res=>res.json())
-            .then(data=>{
-                console.log(data)
-                setPhoto(data.url.toString());
-                setLoading(false)
-            })
-            .catch(error=>{
-                console.log(error)
-                setLoading(false)
-            })
-        }else{
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    setPhoto(data.url.toString());
+                    setLoading(false)
+                })
+                .catch(error => {
+                    console.log(error)
+                    setLoading(false)
+                })
+        } else {
             toast.error('please select a image');
             return;
         }
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
 
@@ -52,7 +52,7 @@ const Signup = () => {
         const password = form.password.value;
 
         if (!name || !email || !password) {
-            toast.error('Please fill all the feilds');
+            toast.error('Please fill all the fields');
             setLoading(false);
             return;
         }
@@ -63,19 +63,19 @@ const Signup = () => {
                     'Content-type': 'application/json'
                 }
             };
+            const response = await axios.post('http://localhost:5000/api/member/signup', { name, email, password, photo }, config);
 
-            const { data } = axios.post('http://localhost:5000/api/member/signup', { name, email, password,photo },config)
-
-            toast.success('Signup Successfull');
-            localStorage.setItem('userInfo',JSON.stringify(data));
-            setLoading(false);
-            navigate('/login')
-
+            if (response.status === 201) {
+                toast.success('Signup Successful');
+                localStorage.setItem('userInfo', JSON.stringify(response.data));
+                setLoading(false);
+                navigate('/login');
+            }
         } catch (error) {
-            toast.error('error signup')
+            toast.error('Error during signup');
         }
+    };
 
-    }
 
     return (
         <div className='bg-white flex min-h-screen w-full'>
