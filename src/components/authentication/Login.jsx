@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
 import logo from '../../../public/images/akf logo.jpg'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
 const Login = () => {
-    const [loading,setLoading]=useState(false)
+    const [loading,setLoading]=useState(false);
+    const [user,setUser]=useState('');
+    console.log(user)
 
     const handleLogin=async(event)=>{
         event.preventDefault();
@@ -29,14 +31,35 @@ const Login = () => {
             }
             const {data}=await axios.post('http://localhost:5000/api/member/login',{email,password},config)
             toast.success('login successfull');
+            localStorage.setItem('jwtToken', data?.token)
             setLoading(false)
-            console.log(data)
+            fetchUser()
 
         } catch (error) {
            toast.error('login failed, try again')
         }
 
     }
+
+    const fetchUser=async()=>{
+        try {
+            const {data}=await axios.get('http://localhost:5000/api/member/user',{
+                headers:{
+                    Authorization:`Bearer ${localStorage.getItem('jwtToken')}`
+                }
+            })
+            setUser(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(()=>{
+        const token=localStorage.getItem('jwtToken');
+        if(token){
+            fetchUser()
+        }
+    },[])
 
     return (
         <div className='bg-white flex min-h-screen w-full'>
