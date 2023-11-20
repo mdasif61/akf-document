@@ -1,65 +1,48 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../../public/images/akf logo.jpg'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
 const Login = () => {
-    const [loading,setLoading]=useState(false);
-    const [user,setUser]=useState('');
-    console.log(user)
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
 
-    const handleLogin=async(event)=>{
+    const handleLogin = async (event) => {
         event.preventDefault();
         setLoading(true)
 
-        const form=event.target;
-        const email=form.email.value;
-        const password=form.password.value;
+        const form = event.target;
+        const email = form.email.value;
+        const password = form.password.value;
 
-        if(!email || !password){
+        if (!email || !password) {
             toast.error('please fill all fields')
             setLoading(false);
             return;
         }
 
         try {
-            const config={
-                headers:{
-                    'Content-type':'application/json'
+            const config = {
+                headers: {
+                    'Content-type': 'application/json'
                 }
             }
-            const {data}=await axios.post('http://localhost:5000/api/member/login',{email,password},config)
+            const { data, statusText } = await axios.post('http://localhost:5000/api/member/login', { email, password }, config)
             toast.success('login successfull');
-            localStorage.setItem('jwtToken', data?.token)
-            setLoading(false)
-            fetchUser()
+            if (statusText == 'OK') {
+                localStorage.setItem('jwtToken', data?.token)
+                setLoading(false)
+                navigate(from)
+            }
 
         } catch (error) {
-           toast.error('login failed, try again')
+            toast.error('login failed, try again')
         }
 
     }
-
-    const fetchUser=async()=>{
-        try {
-            const {data}=await axios.get('http://localhost:5000/api/member/user',{
-                headers:{
-                    Authorization:`Bearer ${localStorage.getItem('jwtToken')}`
-                }
-            })
-            setUser(data)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    useEffect(()=>{
-        const token=localStorage.getItem('jwtToken');
-        if(token){
-            fetchUser()
-        }
-    },[])
 
     return (
         <div className='bg-white flex min-h-screen w-full'>

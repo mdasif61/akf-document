@@ -10,6 +10,9 @@ import Invoice from './components/pages/Invoice';
 import Login from './components/authentication/Login';
 import Signup from './components/authentication/Signup';
 import { Toaster } from 'react-hot-toast';
+import PrivateRoute from './components/pages/PrivateRoute';
+import AuthContext from './components/context/AuthContext';
+import Display from './components/pages/Display';
 
 const router = createBrowserRouter([
   {
@@ -18,25 +21,29 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Home />
+        element: <Display />
       },
       {
-        path:'/pages',
-        element:<Pages/>
+        path: '/home',
+        element: <PrivateRoute><Home /></PrivateRoute>
       },
       {
-        path:'/invoice/:id',
-        element:<Invoice/>
+        path: '/pages',
+        element: <PrivateRoute><Pages /></PrivateRoute>
       },
       {
-        path:'/login',
-        element:<Login/>
+        path: '/invoice/:id',
+        element: <Invoice />
       },
-      {
-        path:'/signup',
-        element:<Signup/>
-      }
     ]
+  },
+  {
+    path: '/login',
+    element: <Login />
+  },
+  {
+    path: '/signup',
+    element: <Signup />
   }
 ])
 
@@ -45,8 +52,10 @@ const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <Toaster/>
+      <AuthContext>
+        <RouterProvider router={router} />
+      </AuthContext>
+      <Toaster />
     </QueryClientProvider>
   </React.StrictMode>,
 )
