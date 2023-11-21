@@ -15,9 +15,11 @@ const useLoggedUser = () => {
             } catch (error) {
                 throw new Error('please login :', error)
             }
+        },
+        {
+            enabled:!! localStorage.getItem('jwtToken')
         }
     )
-    console.log(currentUser)
     return { currentUser, refetch, userLoading }
 };
 
