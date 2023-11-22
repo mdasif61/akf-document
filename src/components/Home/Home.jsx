@@ -1,4 +1,4 @@
-import { faBorderAll, faFileLines, faPager, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightFromSquare, faBorderAll, faCalendarWeek, faFileLines, faPager, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
@@ -7,6 +7,9 @@ import { useMutation } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import usePage from "../../hooks/usePage";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns";
 
 const Home = () => {
     const { pages, refetch: pageRefetch } = usePage()
@@ -19,6 +22,14 @@ const Home = () => {
     const [month, setMonth] = useState('');
     const [year, setYear] = useState('');
     const [account, setAccount] = useState('');
+
+    const [startDate, setStartDate] = useState(new Date());
+
+    const handleDateChange = (date) => {
+        setStartDate(date);
+        console.log('Get Date: ', format(date,"dd/MM/yyyy"))
+    };
+
 
     useEffect(() => {
         member.slice(0, 1).map((head) => {
@@ -147,11 +158,19 @@ const Home = () => {
     return (
         <div className="w-full min-h-screen flex items-center justify-center">
             <div className="relative left-0 top-0 p-5 h-auto w-full mx-auto">
-                <div ref={menuRef} onClick={() => setShowMenu(!showMenu)} className="w-8 mb-3 fixed top-10 left-10 h-8 cursor-pointer rounded-full border border-white flex items-center justify-center">
+                <div ref={menuRef} onClick={() => setShowMenu(!showMenu)} className="w-8 mb-3 fixed top-24 left-10 h-8 cursor-pointer rounded-full border border-white flex items-center justify-center">
                     <FontAwesomeIcon className="text-white" icon={faPlus} />
                 </div>
-                {showMenu && <div className="fixed z-50 space-y-2 top-20 bg-white w-48 p-4 left-10 rounded-md">
+                {showMenu && <div className="fixed z-50 space-y-2 top-36 bg-white w-48 p-4 left-10 rounded-md">
+
                     <p onClick={() => setShowPage(true)} className="hover:cursor-pointer border-b pb-1 font-semibold text-blue-500"><FontAwesomeIcon className="text-blue-500 mr-2" icon={faPager} />Create page</p>
+
+                    <p className="border-b pb-1">
+                        <Link>
+                            <span className="font-semibold hover:cursor-pointer text-black"><FontAwesomeIcon icon={faArrowUpRightFromSquare} /> Untitled</span>
+                        </Link>
+                    </p>
+
                     <p className="border-b pb-1">
                         <Link to='/pages'>
                             <span className="font-semibold hover:cursor-pointer text-black"><FontAwesomeIcon icon={faBorderAll} /> All page</span>
@@ -225,7 +244,19 @@ const Home = () => {
                                                     <input defaultValue={user.mobile} onChange={(e) => updateMember(user._id, { mobile: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Mobile" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input defaultValue={user.date} onChange={(e) => updateMember(user._id, { date: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Date" id="" />
+                                                    {/* <input
+                                                    defaultValue={user.date} onChange={(e) => updateMember(user._id, { date: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Date" id="" /> */}
+                                                    <div className="flex">
+                                                        <DatePicker 
+                                                        className="border-none outline-none w-full h-full" selected={startDate}
+                                                            onChange={()=>{
+                                                                handleDateChange,
+                                                                updateMember(user._id, {date:startDate})
+                                                            }}
+                                                            dateFormat='dd/MM/yyyy'
+                                                        ></DatePicker>
+                                                        <FontAwesomeIcon className="ml-1" icon={faCalendarWeek} />
+                                                    </div>
                                                 </td>
                                                 <td className="border">
                                                     <input defaultValue={user.share} onChange={(e) => updateMember(user._id, { share: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Share Number" id="" />
