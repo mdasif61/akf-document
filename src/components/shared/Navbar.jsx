@@ -35,8 +35,8 @@ const Navbar = () => {
                 <Link to='/'><li className="cursor-pointer">Home</li></Link>
                 <Link to='/pages'><li className="cursor-pointer">Pages</li></Link>
                 <Link to='/create'><li className="cursor-pointer">Create Page</li></Link>
-                <li>{currentUser ? <button onClick={handleLogout} className="btn btn-primary rounded-none">Logout</button> : <button className="btn btn-primary rounded-none">Login</button>}</li>
-                {!currentUser && <li><button className="btn bg-red-600 border-none text-white outline-none rounded-none">Signup</button></li>}
+                <li>{currentUser ? <button onClick={handleLogout} className="btn btn-primary rounded-none">Logout</button> : <Link to='/login'><button className="btn btn-primary rounded-none">Login</button></Link>}</li>
+                {!currentUser && <li><Link to='/signup'><button className="btn bg-red-600 border-none text-white outline-none rounded-none">Signup</button></Link></li>}
             </ul>
         </div>
     );

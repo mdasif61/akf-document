@@ -13,7 +13,11 @@ const Pages = () => {
 
     useEffect(() => {
         if (searchText.trim() !== '') {
-            axios.get(`http://localhost:5000/api/member/search?text=${searchText}`)
+            axios.get(`http://localhost:5000/api/member/search?text=${searchText}`,{
+                headers:{
+                    Authorization:`Bearer ${localStorage.getItem('jwtToken')}`
+                }
+            })
                 .then(res => setData(res.data))
         } else {
             setData([])
