@@ -23,12 +23,24 @@ const Home = () => {
     const [year, setYear] = useState('');
     const [account, setAccount] = useState('');
 
-    const [startDate, setStartDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(() => {
+        const storedDate = localStorage.getItem('startDate');
+        return storedDate ? new Date(storedDate) : null
+    });
 
     const handleDateChange = (date) => {
+        localStorage.setItem('startDate', date)
         setStartDate(date);
-        console.log('Get Date: ', format(date,"dd/MM/yyyy"))
     };
+
+    const dateRef = useRef();
+
+    const handleGetDate = () => {
+        dateRef.current.focus()
+        setTimeout(() => {
+            dateRef.current.focus();
+        }, 100);
+    }
 
 
     useEffect(() => {
@@ -43,7 +55,7 @@ const Home = () => {
         return (
             !month || !account || !year ||
             member.some(user =>
-                !user.name || !user.mobile || !user.share || !user.date || !user.fee || !user.ifound || !user.total
+                !user.name || !user.mobile || !user.share || !user.fee || !user.ifound || !user.total
             )
         );
     };
@@ -244,18 +256,17 @@ const Home = () => {
                                                     <input defaultValue={user.mobile} onChange={(e) => updateMember(user._id, { mobile: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Mobile" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    {/* <input
-                                                    defaultValue={user.date} onChange={(e) => updateMember(user._id, { date: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Date" id="" /> */}
+
                                                     <div className="flex">
-                                                        <DatePicker 
-                                                        className="border-none outline-none w-full h-full" selected={startDate}
-                                                            onChange={()=>{
-                                                                handleDateChange,
-                                                                updateMember(user._id, {date:startDate})
-                                                            }}
+                                                        <input ref={dateRef} onFocus={() => updateMember(user._id, { date: format(startDate, 'dd/MM/yyyy') })} className="w-full opacity-0 bg-white h-full border-none outline-none" type="text" name="" placeholder="Mobile" id="" />
+                                                        <DatePicker
+                                                            onInputClick={handleGetDate}
+                                                            className="border-none outline-none w-full h-full" selected={startDate}
+                                                            onChange={handleDateChange}
                                                             dateFormat='dd/MM/yyyy'
                                                         ></DatePicker>
-                                                        <FontAwesomeIcon className="ml-1" icon={faCalendarWeek} />
+                                                        <FontAwesomeIcon
+                                                            className="ml-1" icon={faCalendarWeek} />
                                                     </div>
                                                 </td>
                                                 <td className="border">
