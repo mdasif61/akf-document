@@ -8,7 +8,7 @@ const useLoggedUser = () => {
     const { data: currentUser, refetch, isLoading: userLoading } = useQuery(['user'],
         async () => {
             if (!token) {
-                return { currentUser: null, refetch: () => { }, userLoading: false }
+                throw new Error('user not logged')
             }
             try {
                 const res = await axios.get('http://localhost:5000/api/member/user', {

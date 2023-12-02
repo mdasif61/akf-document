@@ -19,7 +19,12 @@ const SinglePage = ({ page, refetch }) => {
             confirmButtonText: 'Delete'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`http://localhost:5000/api/member/month-delete/${id}`)
+                axios.delete(`http://localhost:5000/api/member/month-delete/${id}`,{
+                    headers:{
+                        Authorization:`Bearer ${localStorage.getItem('jwtToken')}`,
+                        'Content-Type':'application/json'
+                    }
+                })
                     .then(res => {
                         if (res.data.deletedCount > 0) {
                             refetch()

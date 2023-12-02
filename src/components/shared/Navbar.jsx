@@ -7,7 +7,7 @@ import { UserProvider } from "../context/AuthContext";
 const Navbar = () => {
 
     const navigate = useNavigate();
-    const { currentUser } = useContext(UserProvider)
+    const { currentUser } = useContext(UserProvider);
 
     const handleLogout = async () => {
         try {
@@ -16,7 +16,6 @@ const Navbar = () => {
                     Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
                 }
             })
-            console.log(res)
             if (res?.data?.message == 'logout successfull') {
                 localStorage.removeItem('jwtToken');
                 navigate('/login')

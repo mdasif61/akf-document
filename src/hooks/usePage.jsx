@@ -7,8 +7,9 @@ const usePage = (id) => {
         let url=id?`http://localhost:5000/api/member/all-page/${id}`:`http://localhost:5000/api/member/all-page`
         const res=await axios.get(url,{
             headers:{
-                Authorization:`Bearer ${localStorage.getItem('jwtToken')}`
-            }
+                Authorization:`Bearer ${localStorage.getItem('jwtToken')}`,
+                'Content-Type':'application/json'
+            },
         })
         return res.data;
     }

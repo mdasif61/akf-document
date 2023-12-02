@@ -1,4 +1,4 @@
-import { faArrowUpRightFromSquare, faBorderAll, faCalendarWeek, faFileLines, faPager, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightFromSquare, faBorderAll, faFileLines, faPager, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
@@ -7,9 +7,6 @@ import { useMutation } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import usePage from "../../hooks/usePage";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { format } from "date-fns";
 
 const Home = () => {
     const { pages, refetch: pageRefetch } = usePage()
@@ -23,25 +20,6 @@ const Home = () => {
     const [year, setYear] = useState('');
     const [account, setAccount] = useState('');
 
-    const [startDate, setStartDate] = useState(() => {
-        const storedDate = localStorage.getItem('startDate');
-        return storedDate ? new Date(storedDate) : null
-    });
-
-    const handleDateChange = (date) => {
-        localStorage.setItem('startDate', date)
-        setStartDate(date);
-    };
-
-    const dateRef = useRef();
-
-    const handleGetDate = () => {
-        dateRef.current.focus()
-        setTimeout(() => {
-            dateRef.current.focus();
-        }, 100);
-    }
-
 
     useEffect(() => {
         member.slice(0, 1).map((head) => {
@@ -53,9 +31,9 @@ const Home = () => {
 
     const isSaveDisabled = () => {
         return (
-            !month || !account || !year ||
+            !month || !year ||
             member.some(user =>
-                !user.name || !user.mobile || !user.share || !user.fee || !user.ifound || !user.total
+                !user.name || !user.mobile || !user.share || !user.date || !user.fee || !user.ifound || !user.total
             )
         );
     };
@@ -193,34 +171,36 @@ const Home = () => {
 
                 {
                     showPage && <div className="w-full">
-                        <div className="flex w-full p-5 bg-blue-600 items-center">
-                            <div className="flex-1">
-                                {member.slice(0, 1).map((head) => {
-                                    return <form key={head._id} className="items-center flex  top-20 justify-between">
-                                        <div>
-                                            <input defaultValue={head.month} onChange={(e) => {
-                                                updateMember(head._id, { month: e.target.value })
-                                            }} className="h-12 border-b border-white text-white bg-transparent focus:outline-none py-2 font-bold text-xl" type="text" name="month" id="" placeholder="MONTH NAME" />
-                                        </div>
-                                        <div>
-                                            <input defaultValue={head.account} onChange={(e) => {
-                                                updateMember(head._id, { account: e.target.value })
-                                            }} className="h-12 focus:outline-none bg-transparent text-white border-b border-white py-2 font-bold text-xl" type="text" name="account" id="" placeholder="MONTHLY ACCOUNT" />
-                                        </div>
-                                        <div>
-                                            <input defaultValue={head.year} onChange={(e) => {
-                                                updateMember(head._id, { year: e.target.value })
-                                            }} className="h-12 focus:outline-none border-b text-white border-white bg-transparent py-2 font-bold text-xl" type="text" name="year" id="" placeholder="YEAR" />
-                                        </div>
-                                    </form>
-                                })}
-                            </div>
+                        {
+                            member.length > 0 ? <div className="flex w-full p-5 bg-blue-600 items-center">
+                                <div className="flex-1">
+                                    {member.slice(0, 1).map((head) => {
+                                        return <form key={head._id} className="items-center flex  top-20 justify-between">
+                                            <div>
+                                                <input defaultValue={head.month} onChange={(e) => {
+                                                    updateMember(head._id, { month: e.target.value })
+                                                }} className="h-12 border-b border-white text-white bg-transparent focus:outline-none py-2 font-bold text-xl" type="text" name="month" id="" placeholder="MONTH NAME" />
+                                            </div>
+                                            <div>
+                                                <input readOnly value={'Monthly Account'} onChange={(e) => {
+                                                    updateMember(head._id, { account: e.target.value })
+                                                }} className="h-12 focus:outline-none bg-transparent text-white border-b border-white py-2 font-bold text-xl" type="text" name="account" id="" placeholder="MONTHLY ACCOUNT" />
+                                            </div>
+                                            <div>
+                                                <input defaultValue={head.year} onChange={(e) => {
+                                                    updateMember(head._id, { year: e.target.value })
+                                                }} className="h-12 focus:outline-none border-b text-white border-white bg-transparent py-2 font-bold text-xl" type="text" name="year" id="" placeholder="YEAR" />
+                                            </div>
+                                        </form>
+                                    })}
+                                </div>
 
-                            <button disabled={isSaveDisabled()} onClick={handleSubmit} type="submit" className="btn bg-blue-400 border-none outline-none ml-5 hover:bg-blue-700 h-12 rounded-none text-white">SAVE</button>
-                        </div>
+                                <button disabled={isSaveDisabled()} onClick={handleSubmit} type="submit" className="btn bg-blue-400 border-none outline-none ml-5 hover:bg-blue-700 h-12 rounded-none text-white">SAVE</button>
+                            </div> : <div className="w-full bg-blue-800 text-blue-300 p-5 text-lg">Add Your Member by clicking the <span className="font-bold">Add Member</span> button below...</div>
+                        }
 
                         <div className="bg-blue-500 p-2">
-                            <button onClick={addMembers} className="text-white"><FontAwesomeIcon icon={faPlus} /> Add Member</button>
+                            <button onClick={addMembers} className="text-white hover:underline"><FontAwesomeIcon icon={faPlus} /> Add Member</button>
                             <Link to='/pages'>
                                 <button className="text-white ml-4 hover:underline"><FontAwesomeIcon icon={faFileLines} /> Pages <div className="badge bg-blue-200 border-none p-2 font-bold badge-xs"><span className="absolute ">{pages.length ? pages.length : 0}</span></div></button>
                             </Link>
@@ -239,7 +219,7 @@ const Home = () => {
                                         <th>Total</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody className="relative">
                                     {
                                         member?.map((user) => (
                                             <tr onMouseOver={() => {
@@ -256,18 +236,7 @@ const Home = () => {
                                                     <input defaultValue={user.mobile} onChange={(e) => updateMember(user._id, { mobile: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Mobile" id="" />
                                                 </td>
                                                 <td className="border">
-
-                                                    <div className="flex">
-                                                        <input ref={dateRef} onFocus={() => updateMember(user._id, { date: format(startDate, 'dd/MM/yyyy') })} className="w-full opacity-0 bg-white h-full border-none outline-none" type="text" name="" placeholder="Mobile" id="" />
-                                                        <DatePicker
-                                                            onInputClick={handleGetDate}
-                                                            className="border-none outline-none w-full h-full" selected={startDate}
-                                                            onChange={handleDateChange}
-                                                            dateFormat='dd/MM/yyyy'
-                                                        ></DatePicker>
-                                                        <FontAwesomeIcon
-                                                            className="ml-1" icon={faCalendarWeek} />
-                                                    </div>
+                                                    <input defaultValue={user.date} onChange={(e) => updateMember(user._id, { date: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Date" id="" />
                                                 </td>
                                                 <td className="border">
                                                     <input defaultValue={user.share} onChange={(e) => updateMember(user._id, { share: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Share Number" id="" />

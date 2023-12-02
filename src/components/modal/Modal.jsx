@@ -9,7 +9,12 @@ const Modal = ({ handleHideModal, pageData, refetch }) => {
     const monthMutation = useMutation(
         async ({ memberIndex, data }) => {
             try {
-                const res = await axios.patch(`http://localhost:5000/api/member/update-month/${pageData._id}`, { data: data, index: memberIndex });
+                const res = await axios.patch(`http://localhost:5000/api/member/update-month/${pageData._id}`, { data: data, index: memberIndex },{
+                    headers:{
+                        Authorization:`Bearer ${localStorage.getItem('jwtToken')}`,
+                        'Content-Type':'application/json'
+                    }
+                });
                 return res.data;
             } catch (error) {
                 console.log(`Error month update :`, error)
