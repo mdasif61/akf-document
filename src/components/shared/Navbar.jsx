@@ -34,7 +34,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="p-4 text-end relative bg-gray-800">
+    <div className="p-4 text-end top-0 sticky bg-white backdrop-blur-xl bg-opacity-30 z-50">
       <ul className="flex items-center justify-end text-white space-x-5">
         <Link to="/">
           <li className="cursor-pointer">Home</li>
@@ -57,11 +57,11 @@ const Navbar = () => {
       </ul>
 
       <div
-        className={`absolute bg-gray-800 flex items-center justify-between min-h-[400px] duration-300 w-56 p-4 ${
+        className={`fixed bg-gray-800 flex items-center justify-between duration-300 w-56 px-4 py-8 ${
           userProfile ? "right-0" : "-right-full"
         } top-20`}
       >
-        <ul className="flex flex-col h-full w-full items-center space-y-2">
+        <ul className="flex flex-col h-full w-full items-center justify-between space-y-2">
           <li>
             <div className="flex flex-col items-center space-y-3">
               <div className="avatar">
@@ -79,13 +79,13 @@ const Navbar = () => {
             {currentUser ? (
               <button
                 onClick={handleLogout}
-                className="btn btn-block btn-primary rounded-none"
+                className="btn btn-block btn-primary rounded-full mt-4"
               >
                 Logout
               </button>
             ) : (
               <Link to="/login">
-                <button className="btn btn-primary btn-block rounded-none">
+                <button className="btn btn-primary btn-block mt-4 rounded-full">
                   Login
                 </button>
               </Link>
@@ -94,7 +94,7 @@ const Navbar = () => {
           {!currentUser && (
             <li className="w-full">
               <Link to="/signup">
-                <button className="btn bg-red-600 btn-block border-none text-white outline-none rounded-none">
+                <button className="btn bg-red-600 btn-block border-none text-white outline-none rounded-full">
                   Signup
                 </button>
               </Link>

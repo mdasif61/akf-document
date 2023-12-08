@@ -155,7 +155,7 @@ const Home = () => {
 
                     <p onClick={() => setShowPage(true)} className="hover:cursor-pointer border-b pb-1 font-semibold text-blue-500"><FontAwesomeIcon className="text-blue-500 mr-2" icon={faPager} />Create page</p>
 
-                    <p className="border-b pb-1">
+                    <p className="border-b pb-1"> 
                         <Link>
                             <span className="font-semibold hover:cursor-pointer text-black"><FontAwesomeIcon icon={faArrowUpRightFromSquare} /> Untitled</span>
                         </Link>
