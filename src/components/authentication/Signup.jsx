@@ -51,6 +51,13 @@ const Signup = () => {
         const email = form.email.value;
         const password = form.password.value;
 
+        const userInfo={
+            name,
+            email,
+            password,
+            photo,
+        }
+
         if (!name || !email || !password) {
             toast.error('Please fill all the fields');
             setLoading(false);
@@ -63,7 +70,7 @@ const Signup = () => {
                     'Content-type': 'application/json'
                 }
             };
-            const response = await axios.post('http://localhost:5000/api/member/signup', { name, email, password, photo }, config);
+            const response = await axios.post('http://localhost:5000/api/member/signup', userInfo, config);
 
             if (response.status === 201) {
                 toast.success('Signup Successful');

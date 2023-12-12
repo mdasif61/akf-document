@@ -4,12 +4,14 @@ import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { UserProvider } from "../context/AuthContext";
 import profiles from "../../../public/images/profile-web.jpg";
+import useAdmin from "../../hooks/useAdmin";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { currentUser } = useContext(UserProvider);
   const [userProfile, setUserProfile] = useState(false);
-  console.log(currentUser);
+  const {isAdmin}=useAdmin()
+  console.log(isAdmin)
 
   const handleLogout = async () => {
     try {
