@@ -10,7 +10,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { currentUser } = useContext(UserProvider);
   const [userProfile, setUserProfile] = useState(false);
-  const {isAdmin}=useAdmin()
+  const {isAdmin}=useAdmin();
   console.log(isAdmin)
 
   const handleLogout = async () => {
@@ -47,11 +47,14 @@ const Navbar = () => {
         <Link to="/create">
           <li className="cursor-pointer">Create Page</li>
         </Link>
+        <Link to={`/dashboard/${isAdmin?"admin":"author"}`}>
+          <li className="cursor-pointer">Dashboard</li>
+        </Link>
         <li onClick={() => setUserProfile(!userProfile)}>
           <div className="cursor-pointer">
             <div title={currentUser?.name} className="avatar">
               <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                <img src={currentUser?.photo || profiles} />
+                <img src={currentUser?.photo || profiles}/>
               </div>
             </div>
           </div>

@@ -15,6 +15,9 @@ import AuthContext from "./components/context/AuthContext";
 import Display from "./components/pages/Display";
 import Dashboard from "./components/dashboard/Dashboard";
 import Admin from "./components/dashboard/admin/Admin";
+import Author from "./components/dashboard/author/Author";
+import AllUsers from "./components/dashboard/admin/AllUsers";
+import ManageUsers from "./components/dashboard/admin/ManageUsers";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +67,18 @@ const router = createBrowserRouter([
         path: "/dashboard/admin",
         element: <Admin />,
       },
+      {
+        path:'/dashboard/all-users',
+        element:<AllUsers/>
+      },
+      {
+        path:'/dashboard/manage-user',
+        element:<ManageUsers/>
+      },
+      {
+        path:"/dashboard/author",
+        element:<Author/>
+      }
     ],
   },
 ]);
