@@ -1,16 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import useAxiosProtact from "./useAxiosProtact";
 
 const useChartAccount = () => {
+    const [axiosProtact]=useAxiosProtact()
     const {data:chartData,refetch}=useQuery(['chart-total'],
     async()=>{
         try {
-            const res=await axios.get('http://localhost:5000/api/member/chart-total',{
-                headers:{
-                    Authorization:`Bearer ${localStorage.getItem('jwtToken')}`,
-                    'Content-Type':'application/json'
-                }
-            })
+            const res=await axiosProtact.get('http://localhost:5000/api/member/chart-total')
             return res.data;
         } catch (error) {
             throw new Error('Chart-Total_error :', error)

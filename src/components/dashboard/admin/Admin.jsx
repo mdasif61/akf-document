@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { UserProvider } from "../../context/AuthContext";
+import defaultProfile from '../../../../public/images/profile-web.jpg'
 
 const Admin = () => {
   const { currentUser } = useContext(UserProvider);
@@ -38,21 +39,32 @@ const Admin = () => {
             </button>
           </Link>
         </div>
-        <div className="flex space-x-5">
-          <div className="w-10">
-            <img src={currentUser?.photo} alt="user" />
+        <div className="flex items-center flex-col justify-center my-10">
+          <div className="avatar">
+            <div className="w-16 border-blue-700 border-4 rounded-full">
+              <img src={currentUser?.photo || defaultProfile} />
+            </div>
           </div>
-          <div className="flex flex-col items-start">
-            <span className="m-0">
-              <FontAwesomeIcon className="font-bold mr-1" icon={faUser} /> {currentUser?.name}
+          <div className="text-center">
+            <span className="m-0 text-blue-400">
+              <FontAwesomeIcon
+                className="font-bold mr-1 text-blue-700"
+                icon={faUser}
+              />{" "}
+              {currentUser?.name}
             </span>
             <br />
-            <span className="m-0">
-              <FontAwesomeIcon className="font-bold mr-1" icon={faEnvelope} /> {currentUser?.email}
+            <span className="m-0 text-blue-400">
+              <FontAwesomeIcon
+                className="font-bold mr-1 text-blue-700"
+                icon={faEnvelope}
+              />{" "}
+              {currentUser?.email}
             </span>
             <br />
           </div>
         </div>
+        <hr/>
       </div>
     </SideBar>
   );

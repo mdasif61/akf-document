@@ -1,16 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import useAxiosProtact from "./useAxiosProtact";
 
 const usePage = (id) => {
+    const [axiosProtact]=useAxiosProtact()
     const {data:pages=[],refetch,isLoading,isFetching}=useQuery(['all-page'],
     async()=>{
         let url=id?`http://localhost:5000/api/member/all-page/${id}`:`http://localhost:5000/api/member/all-page`
-        const res=await axios.get(url,{
-            headers:{
-                Authorization:`Bearer ${localStorage.getItem('jwtToken')}`,
-                'Content-Type':'application/json'
-            },
-        })
+        const res=await axiosProtact.get(url)
         return res.data;
     }
     );
