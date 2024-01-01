@@ -116,6 +116,7 @@ const Home = () => {
     const updateMutaton = useMutation(
         async ({ id, data }) => {
             try {
+                console.log(id,data)
                 const res = await axios.patch(`http://localhost:5000/api/member/update-member/${id}`, { data: data });
                 return res.data;
             } catch (error) {

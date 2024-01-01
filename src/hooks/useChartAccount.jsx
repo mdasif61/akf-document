@@ -6,7 +6,7 @@ const useChartAccount = () => {
     const {data:chartData,refetch}=useQuery(['chart-total'],
     async()=>{
         try {
-            const res=await axiosProtact.get('http://localhost:5000/api/member/chart-total')
+            const res=await axiosProtact.get('/api/member/chart-total')
             return res.data;
         } catch (error) {
             throw new Error('Chart-Total_error :', error)
