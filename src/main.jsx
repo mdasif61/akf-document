@@ -18,6 +18,8 @@ import Admin from "./components/dashboard/admin/Admin";
 import Author from "./components/dashboard/author/Author";
 import AllUsers from "./components/dashboard/admin/AllUsers";
 import ManageUsers from "./components/dashboard/admin/ManageUsers";
+import User from "./components/dashboard/user/User";
+import MyAccounts from "./components/dashboard/user/MyAccounts";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +80,14 @@ const router = createBrowserRouter([
       {
         path:"/dashboard/author",
         element:<Author/>
+      },
+      {
+        path:'/dashboard/user-dashboard',
+        element:<User/>
+      },
+      {
+        path:'/dashboard/my-accounts',
+        element:<MyAccounts/>
       }
     ],
   },

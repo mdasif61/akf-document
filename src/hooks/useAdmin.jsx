@@ -8,7 +8,7 @@ const useAdmin = () => {
     async () => {
       try {
         const res = await axiosProtact.get(
-          `http://localhost:5000/api/member/isAdmin`);
+          `/api/member/isAdmin`);
         return res.data.admin;
       } catch (error) {
         throw new Error("isAdmin Error :", error);

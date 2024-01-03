@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { UserProvider } from "../../context/AuthContext";
-import defaultProfile from '../../../../public/images/profile-web.jpg'
+import defaultProfile from "../../../../public/images/profile-web.jpg";
 
 const Admin = () => {
   const { currentUser } = useContext(UserProvider);
@@ -29,7 +29,7 @@ const Admin = () => {
         </h1>
         <div className="my-4">
           <Link to="/dashboard/all-users">
-            <button className="btn hover:border hover:border-black rounded-none bg-black text-white hover:bg-white hover:text-black  outline-none">
+            <button className="btn hover:border hover:border-black rounded-none bg-black text-white hover:bg-white hover:text-black outline-none">
               See All Users
             </button>
           </Link>
@@ -64,7 +64,6 @@ const Admin = () => {
             <br />
           </div>
         </div>
-        <hr/>
       </div>
     </SideBar>
   );

@@ -5,13 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserProvider } from "../context/AuthContext";
 import profiles from "../../../public/images/profile-web.jpg";
 import useAdmin from "../../hooks/useAdmin";
+import useAuthor from "../../hooks/useAuthor";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { currentUser } = useContext(UserProvider);
   const [userProfile, setUserProfile] = useState(false);
-  const {isAdmin}=useAdmin();
-  console.log(isAdmin)
+  const { isAdmin } = useAdmin();
+  const {isAuthor}=useAuthor();
 
   const handleLogout = async () => {
     try {
@@ -47,14 +48,30 @@ const Navbar = () => {
         <Link to="/create">
           <li className="cursor-pointer">Create Page</li>
         </Link>
-        <Link to={`/dashboard/${isAdmin?"admin":"author"}`}>
+
+        {isAdmin && (
+          <Link to={`/dashboard/admin`}>
+            <li className="cursor-pointer">Dashboard</li>
+          </Link>
+        )}
+
+        {isAuthor&&(
+          <Link to={'/dashboard/author'}>
           <li className="cursor-pointer">Dashboard</li>
-        </Link>
+          </Link>
+        )}
+
+        {!isAdmin && !isAuthor&&(
+          <Link to={`/dashboard/user-dashboard`}>
+          <li className="cursor-pointer">Dashboard</li>
+          </Link>
+        )}
+
         <li onClick={() => setUserProfile(!userProfile)}>
           <div className="cursor-pointer">
             <div title={currentUser?.name} className="avatar">
               <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                <img src={currentUser?.photo || profiles}/>
+                <img src={currentUser?.photo || profiles} />
               </div>
             </div>
           </div>
