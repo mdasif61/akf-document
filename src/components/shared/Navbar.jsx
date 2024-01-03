@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { UserProvider } from "../context/AuthContext";
 import profiles from "../../../public/images/profile-web.jpg";
 import useAdmin from "../../hooks/useAdmin";
@@ -12,7 +12,7 @@ const Navbar = () => {
   const { currentUser } = useContext(UserProvider);
   const [userProfile, setUserProfile] = useState(false);
   const { isAdmin } = useAdmin();
-  const {isAuthor}=useAuthor();
+  const { isAuthor } = useAuthor();
 
   const handleLogout = async () => {
     try {
@@ -37,34 +37,68 @@ const Navbar = () => {
   };
 
   return (
-    <div className="p-4 text-end top-0 sticky bg-white backdrop-blur-xl bg-opacity-30 z-50">
+    <div className="p-4 text-end top-0 sticky bg-black z-50">
       <ul className="flex items-center justify-end text-white space-x-5">
-        <Link to="/">
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "bg-gray-700 transition-all duration-300 px-4 py-2 hover:bg-gray-800 text-white"
+              : "border px-4 py-2 border-gray-700 hover:bg-gray-700 text-white transition-all duration-300"
+          }
+          to="/"
+        >
           <li className="cursor-pointer">Home</li>
-        </Link>
-        <Link to="/pages">
-          <li className="cursor-pointer">Pages</li>
-        </Link>
-        <Link to="/create">
-          <li className="cursor-pointer">Create Page</li>
-        </Link>
+        </NavLink>
+        {isAdmin && !isAuthor && (
+          <>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "bg-gray-700 transition-all duration-300 px-4 py-2 hover:bg-gray-800 text-white"
+                  : "border px-4 py-2 border-gray-700 hover:bg-gray-700 text-white transition-all duration-300"
+              }
+              to="/pages"
+            >
+              <li className="cursor-pointer">Pages</li>
+            </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "bg-gray-700 transition-all duration-300 px-4 py-2 hover:bg-gray-800 text-white"
+                  : "border px-4 py-2 border-gray-700 hover:bg-gray-700 text-white transition-all duration-300"
+              }
+              to="/create"
+            >
+              <li className="cursor-pointer">Create Page</li>
+            </NavLink>
+          </>
+        )}
 
         {isAdmin && (
-          <Link to={`/dashboard/admin`}>
+          <NavLink
+            className="bg-indigo-600 py-2 px-5 hover:bg-indigo-800 transition-all duration-300 font-bold text-white"
+            to={`/dashboard/admin`}
+          >
             <li className="cursor-pointer">Dashboard</li>
-          </Link>
+          </NavLink>
         )}
 
-        {isAuthor&&(
-          <Link to={'/dashboard/author'}>
-          <li className="cursor-pointer">Dashboard</li>
-          </Link>
+        {isAuthor && (
+          <NavLink
+            className="bg-indigo-600 py-2 px-5 hover:bg-indigo-800 transition-all duration-300 font-bold text-white"
+            to={"/dashboard/author"}
+          >
+            <li className="cursor-pointer">Dashboard</li>
+          </NavLink>
         )}
 
-        {!isAdmin && !isAuthor&&(
-          <Link to={`/dashboard/user-dashboard`}>
-          <li className="cursor-pointer">Dashboard</li>
-          </Link>
+        {!isAdmin && !isAuthor && (
+          <NavLink
+            className="bg-indigo-600 py-2 px-5 hover:bg-indigo-800 transition-all duration-300 font-bold text-white"
+            to={`/dashboard/user-dashboard`}
+          >
+            <li className="cursor-pointer">Dashboard</li>
+          </NavLink>
         )}
 
         <li onClick={() => setUserProfile(!userProfile)}>
