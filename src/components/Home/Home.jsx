@@ -7,8 +7,12 @@ import { useMutation } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import usePage from "../../hooks/usePage";
+import useAllUserGet from "../../hooks/useAllUserGet";
+import toast from "react-hot-toast";
+import useAxiosProtact from "../../hooks/useAxiosProtact";
 
 const Home = () => {
+    const [axiosProtact] = useAxiosProtact()
     const { pages, refetch: pageRefetch } = usePage()
     const [showMenu, setShowMenu] = useState(false);
     const [showPage, setShowPage] = useState(false);
@@ -19,6 +23,7 @@ const Home = () => {
     const [month, setMonth] = useState('');
     const [year, setYear] = useState('');
     const [account, setAccount] = useState('');
+    const { allUser } = useAllUserGet();
 
 
     useEffect(() => {
@@ -38,23 +43,6 @@ const Home = () => {
         );
     };
 
-    const handleSubmit = async () => {
-        await axios.post(`http://localhost:5000/api/member/pages`, { month, account, year, member })
-            .then(res => {
-                if (res.statusText === 'Created') {
-                    axios.delete('http://localhost:5000/api/member/delete-all')
-                        .then(res => {
-                            if (res.data.deletedCount > 0) {
-                                pageRefetch()
-                                refetch()
-                            }
-
-                        })
-                }
-            })
-
-    }
-
     const blankData = {
         name: '',
         mobile: '',
@@ -68,6 +56,32 @@ const Home = () => {
         account: '',
         year: ''
     }
+
+    const handleSubmit = async () => {
+        await axiosProtact.post(`http://localhost:5000/api/member/pages`, { month, account, year, member })
+            .then(res => {
+                if (res.statusText === 'Created') {
+                    refetch()
+                    axiosProtact.delete('http://localhost:5000/api/member/delete-all', { data: { allUser } })
+                        .then(res => {
+                            if (res.data.deletedCount > 0) {
+                                refetch()
+                                axiosProtact.patch(`http://localhost:5000/api/member/fixed-user-row/${member.map(user => user._id)}`, blankData)
+                                    .then(res => {
+                                        if (res.data.modifiedCount > 0) {
+                                            refetch()
+                                            pageRefetch()
+                                        }
+                                    })
+
+                            }
+
+                        })
+                }
+            })
+
+    }
+
 
     const addMembers = () => {
         axios.post('http://localhost:5000/api/member/members', blankData)
@@ -99,24 +113,33 @@ const Home = () => {
     }
     )
 
-    const removeRow = (memberId) => {
-        Swal.fire({
-            title: 'Are you sure?',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Delete'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                mutation.mutate(memberId)
-            }
-        })
+    const removeRow = (user) => {
+        const findDatabaseUser = allUser.find((users) => {
+            return user.name === users.name
+        });
+
+        if (findDatabaseUser) {
+            toast.error('It is permanent user! Not valid for delete')
+            return;
+        } else {
+            Swal.fire({
+                title: 'Are you sure?',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Delete'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    mutation.mutate(user._id)
+                }
+            })
+        }
+
     };
 
     const updateMutaton = useMutation(
         async ({ id, data }) => {
             try {
-                console.log(id,data)
                 const res = await axios.patch(`http://localhost:5000/api/member/update-member/${id}`, { data: data });
                 return res.data;
             } catch (error) {
@@ -156,7 +179,7 @@ const Home = () => {
 
                     <p onClick={() => setShowPage(true)} className="hover:cursor-pointer border-b pb-1 font-semibold text-blue-500"><FontAwesomeIcon className="text-blue-500 mr-2" icon={faPager} />Create page</p>
 
-                    <p className="border-b pb-1"> 
+                    <p className="border-b pb-1">
                         <Link>
                             <span className="font-semibold hover:cursor-pointer text-black"><FontAwesomeIcon icon={faArrowUpRightFromSquare} /> Untitled</span>
                         </Link>
@@ -231,29 +254,29 @@ const Home = () => {
                                                 setRowId(null)
                                             }} key={user._id}>
                                                 <td className="border">
-                                                    <input defaultValue={user.name} onChange={(e) => updateMember(user._id, { name: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="name" placeholder="Name" id="" />
+                                                    <input defaultValue={user.name} onChange={(e) => updateMember(user._id, { name: e.target.value })} className="w-full bg-white h-full border-none outline-none text-black font-semibold" type="text" name="name" placeholder="Name" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input defaultValue={user.mobile} onChange={(e) => updateMember(user._id, { mobile: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Mobile" id="" />
+                                                    <input defaultValue={user.mobile} onChange={(e) => updateMember(user._id, { mobile: e.target.value })} className="w-full bg-white h-full border-none outline-none text-black font-semibold" type="text" name="" placeholder="Mobile" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input defaultValue={user.date} onChange={(e) => updateMember(user._id, { date: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Date" id="" />
+                                                    <input defaultValue={user.date} onChange={(e) => updateMember(user._id, { date: e.target.value })} className="w-full bg-white h-full border-none outline-none text-black font-semibold" type="text" name="" placeholder="Date" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input defaultValue={user.share} onChange={(e) => updateMember(user._id, { share: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Share Number" id="" />
+                                                    <input defaultValue={user.share} onChange={(e) => updateMember(user._id, { share: e.target.value })} className="w-full bg-white h-full border-none outline-none text-black font-semibold" type="text" name="" placeholder="Share Number" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input defaultValue={user.fee} onChange={(e) => updateMember(user._id, { fee: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Montly Fee" id="" />
+                                                    <input defaultValue={user.fee} onChange={(e) => updateMember(user._id, { fee: e.target.value })} className="w-full bg-white h-full border-none outline-none text-black font-semibold" type="text" name="" placeholder="Montly Fee" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input defaultValue={user.ifound} onChange={(e) => updateMember(user._id, { ifound: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="I.F" id="" />
+                                                    <input defaultValue={user.ifound} onChange={(e) => updateMember(user._id, { ifound: e.target.value })} className="w-full bg-white h-full border-none outline-none text-black font-semibold" type="text" name="" placeholder="I.F" id="" />
                                                 </td>
                                                 <td className="border">
-                                                    <input defaultValue={user.penalty} onChange={(e) => updateMember(user._id, { penalty: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Penalty" id="" />
+                                                    <input defaultValue={user.penalty} onChange={(e) => updateMember(user._id, { penalty: e.target.value })} className="w-full bg-white h-full border-none outline-none text-black font-semibold" type="text" name="" placeholder="Penalty" id="" />
                                                 </td>
                                                 <td className="border relative">
-                                                    <input defaultValue={user.total} onChange={(e) => updateMember(user._id, { total: e.target.value })} className="w-full bg-white h-full border-none outline-none" type="text" name="" placeholder="Total" id="" />
-                                                    <button onClick={() => removeRow(user._id)} className={`border-none ${showDelete && rowId == user._id ? '' : 'hidden'} outline-none absolute right-3`}>X</button>
+                                                    <input defaultValue={user.total} onChange={(e) => updateMember(user._id, { total: e.target.value })} className="w-full bg-white h-full border-none outline-none text-black font-semibold" type="text" name="" placeholder="Total" id="" />
+                                                    <button onClick={() => removeRow(user)} className={`border-none ${showDelete && rowId == user._id ? '' : 'hidden'} outline-none absolute right-3`}>X</button>
                                                 </td>
                                             </tr>
                                         ))

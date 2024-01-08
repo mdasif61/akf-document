@@ -51,7 +51,7 @@ const Signup = () => {
         const email = form.email.value;
         const password = form.password.value;
 
-        const userInfo={
+        const userInfo = {
             name,
             email,
             password,
@@ -73,8 +73,34 @@ const Signup = () => {
             const response = await axios.post('http://localhost:5000/api/member/signup', userInfo, config);
 
             if (response.status === 201) {
+                console.log(response.data)
                 toast.success('Signup Successful');
                 localStorage.setItem('userInfo', JSON.stringify(response.data));
+
+                const blankData = {
+                    name: response?.data?.name,
+                    mobile: '',
+                    date: '',
+                    share: '',
+                    fee: '',
+                    ifound: '',
+                    penalty: '',
+                    total: '',
+                    month: '',
+                    account: '',
+                    year: ''
+
+                }
+
+                await axios.post('http://localhost:5000/api/member/members', blankData)
+                    .then(res => {
+                        if (res.data._id) {
+                            // console.log(res.data._id)
+                        }
+                    }).catch(err => {
+                        console.log(err)
+                    })
+
                 setLoading(false);
                 navigate('/login');
             }

@@ -23,11 +23,11 @@ const Admin = () => {
     <SideBar>
       <div className="w-6/12 mx-auto">{View}</div>
       <div className="mx-auto w-full text-center">
-        <h1 className="text-2xl font-semibold text-blue-700">
+        <h1 className="text-2xl font-semibold text-gray-700 mb-5">
           Hi <span className="font-bold">{currentUser?.name}!</span> What&apos;s
           Your Next Plan?
         </h1>
-        <div className="my-4">
+        <div>
           <Link to="/dashboard/all-users">
             <button className="btn hover:border hover:border-black rounded-none bg-black text-white hover:bg-white hover:text-black outline-none">
               See All Users
@@ -41,22 +41,22 @@ const Admin = () => {
         </div>
         <div className="flex items-center flex-col justify-center my-10">
           <div className="avatar">
-            <div className="w-16 border-blue-700 border-4 rounded-full">
+            <div className="w-16 border-gray-700 border-4 rounded-full">
               <img src={currentUser?.photo || defaultProfile} />
             </div>
           </div>
-          <div className="text-center">
-            <span className="m-0 text-blue-400">
+          <div className="text-center text-gray-700">
+            <span className="m-0">
               <FontAwesomeIcon
-                className="font-bold mr-1 text-blue-700"
+                className="font-bold mr-1"
                 icon={faUser}
               />{" "}
               {currentUser?.name}
             </span>
             <br />
-            <span className="m-0 text-blue-400">
+            <span className="m-0">
               <FontAwesomeIcon
-                className="font-bold mr-1 text-blue-700"
+                className="font-bold mr-1"
                 icon={faEnvelope}
               />{" "}
               {currentUser?.email}

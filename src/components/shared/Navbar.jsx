@@ -36,6 +36,7 @@ const Navbar = () => {
     }
   };
 
+
   return (
     <div className="p-4 text-end top-0 sticky bg-black z-50">
       <ul className="flex items-center justify-end text-white space-x-5">
@@ -49,7 +50,8 @@ const Navbar = () => {
         >
           <li className="cursor-pointer">Home</li>
         </NavLink>
-        {isAdmin && !isAuthor && (
+
+        {(isAdmin || isAuthor) && (
           <>
             <NavLink
               className={({ isActive }) =>
@@ -74,16 +76,18 @@ const Navbar = () => {
           </>
         )}
 
-        {isAdmin && (
-          <NavLink
-            className="bg-indigo-600 py-2 px-5 hover:bg-indigo-800 transition-all duration-300 font-bold text-white"
-            to={`/dashboard/admin`}
-          >
-            <li className="cursor-pointer">Dashboard</li>
-          </NavLink>
-        )}
+        {
+          currentUser && isAdmin && (
+            <NavLink
+              className="bg-indigo-600 py-2 px-5 hover:bg-indigo-800 transition-all duration-300 font-bold text-white"
+              to={`/dashboard/admin`}
+            >
+              <li className="cursor-pointer">Dashboard</li>
+            </NavLink>
+          )
+        }
 
-        {isAuthor && (
+        {currentUser && isAuthor && (
           <NavLink
             className="bg-indigo-600 py-2 px-5 hover:bg-indigo-800 transition-all duration-300 font-bold text-white"
             to={"/dashboard/author"}
@@ -92,7 +96,7 @@ const Navbar = () => {
           </NavLink>
         )}
 
-        {!isAdmin && !isAuthor && (
+        {currentUser && !isAdmin && !isAuthor && (
           <NavLink
             className="bg-indigo-600 py-2 px-5 hover:bg-indigo-800 transition-all duration-300 font-bold text-white"
             to={`/dashboard/user-dashboard`}
@@ -113,9 +117,8 @@ const Navbar = () => {
       </ul>
 
       <div
-        className={`fixed bg-gray-800 flex items-center justify-between duration-300 w-56 px-4 py-8 ${
-          userProfile ? "right-0" : "-right-full"
-        } top-20`}
+        className={`fixed bg-gray-800 flex items-center justify-between duration-300 w-56 px-4 py-8 ${userProfile ? "right-0" : "-right-full"
+          } top-20`}
       >
         <ul className="flex flex-col h-full w-full items-center justify-between space-y-2">
           <li>
