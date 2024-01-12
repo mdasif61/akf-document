@@ -36,7 +36,6 @@ const Navbar = () => {
     }
   };
 
-
   return (
     <div className="p-4 text-end top-0 sticky bg-black z-50">
       <ul className="flex items-center justify-end text-white space-x-5">
@@ -76,16 +75,14 @@ const Navbar = () => {
           </>
         )}
 
-        {
-          currentUser && isAdmin && (
-            <NavLink
-              className="bg-indigo-600 py-2 px-5 hover:bg-indigo-800 transition-all duration-300 font-bold text-white"
-              to={`/dashboard/admin`}
-            >
-              <li className="cursor-pointer">Dashboard</li>
-            </NavLink>
-          )
-        }
+        {currentUser && isAdmin && (
+          <NavLink
+            className="bg-indigo-600 py-2 px-5 hover:bg-indigo-800 transition-all duration-300 font-bold text-white"
+            to={`/dashboard/admin`}
+          >
+            <li className="cursor-pointer">Dashboard</li>
+          </NavLink>
+        )}
 
         {currentUser && isAuthor && (
           <NavLink
@@ -117,8 +114,9 @@ const Navbar = () => {
       </ul>
 
       <div
-        className={`fixed bg-gray-800 flex items-center justify-between duration-300 w-56 px-4 py-8 ${userProfile ? "right-0" : "-right-full"
-          } top-20`}
+        className={`fixed bg-gray-800 flex rounded-xl items-center justify-between duration-300 w-56 px-4 py-8 ${
+          userProfile ? "right-0" : "-right-full"
+        } top-20`}
       >
         <ul className="flex flex-col h-full w-full items-center justify-between space-y-2">
           <li>
@@ -128,9 +126,8 @@ const Navbar = () => {
                   <img src={currentUser?.photo || profiles} />
                 </div>
               </div>
-              <p>
-                <span className="font-bold">User :</span>{" "}
-                {currentUser?.name || "login not logged!"}
+              <p className="font-bold">
+              {currentUser?.name || "login not logged!"}
               </p>
             </div>
           </li>

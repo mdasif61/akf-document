@@ -10,7 +10,6 @@ import defaultProfile from "../../../../public/images/profile-web.jpg";
 
 const Admin = () => {
   const { currentUser } = useContext(UserProvider);
-  console.log(currentUser);
 
   const options = {
     animationData: dashboardAnim,
@@ -28,14 +27,14 @@ const Admin = () => {
           Your Next Plan?
         </h1>
         <div>
-          <Link to="/dashboard/all-users">
-            <button className="btn hover:border hover:border-black rounded-none bg-black text-white hover:bg-white hover:text-black outline-none">
-              See All Users
-            </button>
-          </Link>
           <Link to="/dashboard/manage-user">
             <button className="btn hover:border hover:border-black rounded-none bg-black text-white hover:bg-white hover:text-black outline-none">
-              Manage Users
+              Manage user
+            </button>
+          </Link>
+          <Link to="/dashboard/my-accounts">
+            <button className="btn hover:border hover:border-black rounded-none bg-black text-white hover:bg-white hover:text-black outline-none">
+              My Accounts
             </button>
           </Link>
         </div>

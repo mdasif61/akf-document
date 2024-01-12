@@ -2,8 +2,12 @@ import { useState } from "react";
 import defaultProfile from "../../../../public/images/profile-web.jpg";
 import { useMutation } from "@tanstack/react-query";
 import useAxiosProtact from "../../../hooks/useAxiosProtact";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
-const SingleUser = ({ user,refetch }) => {
+const SingleUser = ({ user, refetch }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [axiosProtact] = useAxiosProtact();
 
@@ -11,28 +15,61 @@ const SingleUser = ({ user,refetch }) => {
     setIsDropDownOpen(!isDropDownOpen);
   };
 
-  const mutation = useMutation(async ({ value, id }) => {
-    try {
-      const res = await axiosProtact.patch(`/api/member/change-role/${id}`, {value,});
-      return res.data
-    } catch (error) {
-      console.error("Action Update Error :", error);
-      throw error;
+  const mutation = useMutation(
+    async ({ value, id }) => {
+      try {
+        const res = await axiosProtact.patch(`/api/member/change-role/${id}`, {
+          value,
+        });
+        return res.data;
+      } catch (error) {
+        console.error("Action Update Error :", error);
+        throw error;
+      }
+    },
+    {
+      onSuccess: () => {
+        refetch();
+      },
     }
-  }, {
-    onSuccess:()=>{
-      refetch()
-    }
-  });
+  );
 
   const handleUserInput = (value, id) => {
     mutation.mutate({ value, id });
   };
 
+  const deleteUser = (userId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosProtact.delete(`/api/member/delete-user/${userId}`).then((res) => {
+          if (res.data.message === "user delete success") {
+            toast.success("user delete success");
+            refetch();
+          }
+        });
+      }
+    });
+  };
+
   return (
     <div className="bg-gray-100 relative cursor-pointer flex items-center justify-between border p-2 mb-2">
+      <div
+        onClick={() => deleteUser(user._id)}
+        className="flex items-center justify-center"
+      >
+        <FontAwesomeIcon
+          className="text-red-500 hover:bg-red-200 h-4 w-4 rounded-full p-3 duration-500 hover:border-red-600 hover:border border"
+          icon={faTrashAlt}
+        />
+      </div>
       <div className="avatar flex items-center">
-        <div className="w-10 rounded-full border-2">
+        <div title={user?.email} className="w-10 rounded-full border-2">
           <img src={user?.photo || defaultProfile} alt="profile" />
         </div>
         <p className="text-gray-600 ml-4 font-bold">{user?.name}</p>
@@ -86,7 +123,7 @@ const SingleUser = ({ user,refetch }) => {
                     name="admin"
                     type="checkbox"
                     value="admin"
-                    checked={user?.role==='admin'}
+                    checked={user?.role === "admin"}
                     className="sr-only peer"
                   />
                   <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
@@ -104,7 +141,7 @@ const SingleUser = ({ user,refetch }) => {
                     name="author"
                     type="checkbox"
                     value="author"
-                    checked={user?.role==='author'}
+                    checked={user?.role === "author"}
                     className="sr-only peer"
                   />
                   <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
@@ -119,10 +156,10 @@ const SingleUser = ({ user,refetch }) => {
                 <label className="relative inline-flex items-center w-full cursor-pointer">
                   <input
                     name="user"
-                    onChange={(e)=>handleUserInput(e.target.value,user?._id)}
+                    onChange={(e) => handleUserInput(e.target.value, user?._id)}
                     type="checkbox"
                     value="user"
-                    checked={user?.role==='user'}
+                    checked={user?.role === "user"}
                     className="sr-only peer"
                   />
                   <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-blue-600"></div>

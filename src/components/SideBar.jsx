@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
 import useAdmin from "../hooks/useAdmin";
 import useAuthor from "../hooks/useAuthor";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChartLine, faHouse, faReceipt, faUsers } from "@fortawesome/free-solid-svg-icons";
 
 const SideBar = ({ children }) => {
   const { isAdmin } = useAdmin();
@@ -14,14 +16,15 @@ const SideBar = ({ children }) => {
           {isAdmin && (
             <div className="space-y-2 font-semibold flex flex-col text-gray-500 text-lg">
               <NavLink
-                to="/dashboard/all-users"
+                to="/dashboard/admin"
                 className={({ isActive }) =>
                   isActive
                     ? "bg-black px-4 text-white py-2 cursor-pointer"
                     : " bg-none px-4 py-2 cursor-pointer"
                 }
               >
-                All users
+                <FontAwesomeIcon className="font-bold" icon={faChartLine} />
+                <span className="mx-2">Dashboard</span>
               </NavLink>
               <NavLink
                 to="/dashboard/manage-user"
@@ -31,7 +34,19 @@ const SideBar = ({ children }) => {
                     : " bg-none px-4 py-2 cursor-pointer"
                 }
               >
-                Manage users
+                <FontAwesomeIcon className="font-bold" icon={faUsers} />
+                <span className="mx-2">Manage users</span>
+              </NavLink>
+              <NavLink
+                to="/dashboard/my-accounts"
+                className={({ isActive }) =>
+                  isActive
+                    ? "bg-black text-white px-4 py-2 cursor-pointer"
+                    : " bg-none px-4 py-2 cursor-pointer"
+                }
+              >
+                <FontAwesomeIcon className="font-bold" icon={faReceipt}/>
+                <span className="mx-2">My Accounts</span>
               </NavLink>
               <NavLink
                 to="/"
@@ -41,7 +56,8 @@ const SideBar = ({ children }) => {
                     : " bg-none px-4 py-2 cursor-pointer"
                 }
               >
-                Back to home
+                <FontAwesomeIcon className="font-bold" icon={faHouse}/>
+                <span className="mx-2">Back to home</span>
               </NavLink>
             </div>
           )}
@@ -58,7 +74,8 @@ const SideBar = ({ children }) => {
                     : " bg-none px-4 py-2 cursor-pointer"
                 }
               >
-                Dashboard
+                <FontAwesomeIcon className="font-bold" icon={faChartLine}/>
+                <span className="mx-2">Dashboard</span>
               </NavLink>
               <NavLink
                 to="/dashboard/my-accounts"
@@ -68,7 +85,8 @@ const SideBar = ({ children }) => {
                     : " bg-none px-4 py-2 cursor-pointer"
                 }
               >
-                My Accounts
+                <FontAwesomeIcon className="font-bold" icon={faReceipt}/>
+                <span className="mx-2">My Accounts</span>
               </NavLink>
               <NavLink
                 to="/"
@@ -78,7 +96,8 @@ const SideBar = ({ children }) => {
                     : " bg-none px-4 py-2 cursor-pointer"
                 }
               >
-                Back to home
+                <FontAwesomeIcon className="font-bold" icon={faHouse}/>
+                <span className="mx-2">Back to home</span>
               </NavLink>
             </div>
           )}

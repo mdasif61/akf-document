@@ -3,7 +3,7 @@ import useAxiosProtact from "./useAxiosProtact";
 
 const useAdmin = () => {
   const [axiosProtact]=useAxiosProtact()
-  const { data: isAdmin, isLoading: adminLoading } = useQuery(
+  const { data: isAdmin, isLoading: adminLoading, refetch } = useQuery(
     ["isAdmin"],
     async () => {
       try {
@@ -15,7 +15,7 @@ const useAdmin = () => {
       }
     }
   );
-  return { isAdmin, adminLoading };
+  return { isAdmin, adminLoading, refetch };
 };
 
 export default useAdmin;

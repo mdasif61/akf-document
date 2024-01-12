@@ -36,6 +36,7 @@ const Login = () => {
                 localStorage.setItem('jwtToken', data?.token)
                 setLoading(false)
                 navigate(from)
+                window.location.reload()
             }
 
         } catch (error) {

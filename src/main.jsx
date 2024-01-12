@@ -17,7 +17,6 @@ import Dashboard from "./components/dashboard/Dashboard";
 import Admin from "./components/dashboard/admin/Admin";
 import Author from "./components/dashboard/author/Author";
 import AllUsers from "./components/dashboard/admin/AllUsers";
-import ManageUsers from "./components/dashboard/admin/ManageUsers";
 import User from "./components/dashboard/user/User";
 import MyAccounts from "./components/dashboard/user/MyAccounts";
 
@@ -70,12 +69,8 @@ const router = createBrowserRouter([
         element: <Admin />,
       },
       {
-        path:'/dashboard/all-users',
-        element:<AllUsers/>
-      },
-      {
         path:'/dashboard/manage-user',
-        element:<ManageUsers/>
+        element:<AllUsers/>
       },
       {
         path:"/dashboard/author",

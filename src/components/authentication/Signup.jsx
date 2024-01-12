@@ -73,10 +73,9 @@ const Signup = () => {
             const response = await axios.post('http://localhost:5000/api/member/signup', userInfo, config);
 
             if (response.status === 201) {
-                console.log(response.data)
                 toast.success('Signup Successful');
                 localStorage.setItem('userInfo', JSON.stringify(response.data));
-
+                console.log(response.data._id)
                 const blankData = {
                     name: response?.data?.name,
                     mobile: '',
@@ -88,8 +87,8 @@ const Signup = () => {
                     total: '',
                     month: '',
                     account: '',
-                    year: ''
-
+                    year: '',
+                    userId: response.data._id
                 }
 
                 await axios.post('http://localhost:5000/api/member/members', blankData)
