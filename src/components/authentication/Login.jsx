@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../../public/images/akf logo.jpg'
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -46,24 +46,23 @@ const Login = () => {
     }
 
     return (
-        <div className='bg-white flex min-h-screen w-full'>
-            <div className='w-1/2 p-20 flex items-center justify-center'>
-                <img src={logo} alt="" />
+        <div className='bg-white md:flex min-h-screen w-full'>
+            <div className='md:w-1/2 md:p-20 p-5 flex items-center justify-center'>
+                <img className='w-32 md:w-auto' src={logo} alt="" />
             </div>
-            <form onSubmit={handleLogin} className='w-1/2 p-10 flex flex-col justify-center bg-gray-100 space-y-8 items-center'>
+            <form onSubmit={handleLogin} className='md:w-1/2 w-full p-10 flex flex-col justify-center md:bg-gray-100 space-y-10 items-center'>
                 <h1 className='text-xl font-bold text-black'>Login Now</h1>
-                <div className='w-3/4 h-12 mx-auto'>
+                <div className='md:w-3/4 w-full h-12 mx-auto'>
                     <label htmlFor="email"><span className='font-semibold text-black'>Your Email</span></label><br />
                     <input className='px-4 w-full h-full focus:outline-none border bg-white focus:bg-gray-200 text-black font-semibold' type="email" name="email" id="" placeholder='Enter Your Email' />
                 </div>
 
-                <div className='w-3/4 h-12 mx-auto'>
+                <div className='md:w-3/4 w-full h-12 mx-auto'>
                     <label htmlFor="email"><span className='font-semibold text-black'>Password</span></label><br />
                     <input className='px-4 w-full h-full focus:outline-none border bg-white focus:bg-gray-200 text-black font-semibold' type="password" name="password" id="" placeholder='Password' />
                 </div>
 
-                <button disabled={loading} className='btn w-3/4 mx-auto'>Login</button>
-                <p className='text-blue-500'>Are You New?<Link className='underline' to='/signup'>signup here</Link></p>
+                <button disabled={loading} className='btn bg-blue-600 text-white border-none outline-none md:w-3/4 w-full mx-auto'>Login</button>
             </form>
         </div>
     );

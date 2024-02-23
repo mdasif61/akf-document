@@ -18,22 +18,17 @@ const Display = () => {
   const { View } = useLottie(options);
 
   return (
-    <div className="bg-white h-screen w-full flex">
-      <div className="p-20 w-1/2">
+    <div className="bg-white md:h-screen h-auto w-full md:flex">
+      <div className="p-20 md:w-1/2">
         <img src={akfLogo} alt="logo" />
       </div>
-      <div className="bg-gray-100 relative w-1/2 p-20 flex flex-col items-center justify-center">
+      <div className="md:bg-gray-100 bg-blue-700 relative md:w-1/2 p-20 flex flex-col items-center justify-center">
         <div>{View}</div>
         {loginAndSignUpCond && (
-          <div className="absolute bottom-10">
+          <div className="absolute w-full flex items-center justify-center md:bottom-10 bottom-5">
             <Link to="/login">
-              <button className="bg-blue-600 w-32 hover:bg-blue-800 border-none outline-none rounded-none m-1 btn text-white font-bold">
-                Login
-              </button>
-            </Link>
-            <Link to="/signup">
-              <button className="bg-red-600 w-32 hover:bg-red-800 border-none outline-none rounded-none m-1 btn text-white font-bold">
-                Signup
+              <button className="md:bg-blue-700 md:rounded-full w-96 rounded-none md:hover:bg-blue-800 bg-transparent border-1 border-blue-400 hover:bg-blue-900 hover:border-none md:border-none outline-none m-1 btn text-white font-bold">
+                Get Started
               </button>
             </Link>
           </div>

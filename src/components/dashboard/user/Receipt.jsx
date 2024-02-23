@@ -1,14 +1,20 @@
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
-const Receipt = ({ documentPrint, month, currentUser }) => {
-  console.log(month)
+const Receipt = ({ month, currentUser }) => {
+
+  const documentPrint=useRef()
 
   const handleDownload = useReactToPrint({
     content: () => documentPrint.current,
     documentTitle: `AKF - ${month.month} - ${month.year}`,
   });
+
+   const handleDownloadInvoice=()=>{
+    handleDownload(month._id)
+   }
 
   return (
     <div ref={documentPrint} className="bg-white my-2 border w-full">
@@ -56,7 +62,7 @@ const Receipt = ({ documentPrint, month, currentUser }) => {
           </div>
         </div>
         <button
-          onClick={()=>handleDownload(month._id)}
+          onClick={handleDownloadInvoice}
           className="btn btn-xs absolute bottom-5 left-5 rounded-none hover:bg-transparent hover:border hover:border-gray-600 hover:text-gray-800"
         >
           Download <FontAwesomeIcon icon={faDownload} />

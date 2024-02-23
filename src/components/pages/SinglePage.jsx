@@ -52,14 +52,8 @@ const SinglePage = ({ page, refetch }) => {
   return (
     <div className="mx-auto p-1">
       <div className="w-full flex bg-gradient-to-t from-black to-blue-500 duration-300 rounded-md hover:bg-blue-700 space-x-4 py-3 px-5 hover:cursor-pointer">
-        <div>
-          <h1 className="text-lg font-bold text-white">{page.month}</h1>
-        </div>
-        <div>
-          <h1 className="text-lg font-bold text-white">{page.account}</h1>
-        </div>
         <div className="flex-1">
-          <h1 className="text-lg font-bold text-white">{page.year}</h1>
+          <h1 className="text-lg font-bold text-white">{page.month} - {page.year}</h1>
         </div>
         <div className="bg-blue-100 shadow-lg rounded-full px-2 flex items-center justify-center">
           <FontAwesomeIcon

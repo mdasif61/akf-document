@@ -40,19 +40,19 @@ const Invoice = () => {
     })
 
     return (
-        <div className="relative min-h-[1120px] w-[800px] bg-white mx-auto">
+        <div className="relative md:min-h-[1120px] h-auto md:w-[800px] w-full bg-white mx-auto">
             <div ref={componentPDF} className="w-full flex flex-col justify-between min-h-[1120px] relative bg-white mx-auto">
                 <img className="w-8/12 opacity-5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute mx-auto" src={logo} alt="akf logo not found" />
                 <div>
-                    <div className="w-full bg-gradient-to-t from-blue-900 to-blue-600 text-center py-5 border-b-2 border-blue-300">
-                        <h1 className="text-5xl font-bold text-white drop-shadow-md">Alor Kafela Foundation</h1>
-                        <p className="text-xl font-bold text-blue-200 mt-2">Satkania, Chittagong</p>
-                        <p className="text-lg text-blue-200 font-semibold">Since : 2020</p>
+                    <div className="w-full bg-blue-950 text-center py-5 border-b-2 border-blue-300">
+                        <h1 className="md:text-5xl text-4xl font-bold text-white drop-shadow-md">Alor Kafela Foundation</h1>
+                        <p className="text-lg font-bold text-blue-200 mt-2">Satkania, Chittagong</p>
+                        <p className="text-md text-blue-200 font-semibold">Since : 2020</p>
                     </div>
                     <div className="flex justify-between py-2 text-white w-full px-5 my-3 bg-blue-600 text-xl">
-                        <h1><span className="font-bold">Month :</span> {pages.month}</h1>
+                        <h1><span className="md:font-bold font-semibold">Month :</span> {pages.month}</h1>
                         <h1>{pages.account}</h1>
-                        <h1><span className="font-bold">Year :</span> {pages.year}</h1>
+                        <h1><span className="md:font-bold font-semibold">Year :</span> {pages.year}</h1>
                     </div>
                     <div>
                         <div className="overflow-x-auto bg-white">

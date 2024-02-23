@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import useMyAccount from "../../../hooks/useMyAccount";
 import useSingleMonth from "../../../hooks/useSingleMonth";
 import SideBar from "../../SideBar";
@@ -6,7 +6,6 @@ import { UserProvider } from "../../context/AuthContext";
 import Receipt from "./Receipt";
 
 const MyAccounts = () => {
-  const documentPrint = useRef();
   const { myData } = useMyAccount();
   const [monthName, setMonthName] = useState("");
   const [yearValue, setYearValue] = useState("");
@@ -66,7 +65,7 @@ const MyAccounts = () => {
           </div>
         </div>
       </div>
-      <div className="w-full bg-gradient-to-t my-2 from-blue-500 to-blue-900 rounded-lg p-5">
+      <div className={`w-full bg-gradient-to-t my-2 from-blue-500 to-blue-900 rounded-lg p-5`}>
         <div>
           <ul className="grid grid-cols-6 text-white">
             <li className="flex items-center">
@@ -211,7 +210,6 @@ const MyAccounts = () => {
         ? singleMonth?.map((month, i) => (
             <Receipt
               key={i}
-              documentPrint={documentPrint}
               month={month}
               currentUser={currentUser}
             ></Receipt>

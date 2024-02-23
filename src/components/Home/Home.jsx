@@ -96,6 +96,7 @@ const Home = () => {
               if (res.data.modifiedCount > 0) {
                 refetch();
                 pageRefetch();
+                window.location.reload()
               }
             });
         }

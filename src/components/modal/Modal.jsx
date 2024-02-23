@@ -40,7 +40,7 @@ const Modal = ({ handleHideModal, pageData, refetch }) => {
 
     return (
         <div className="w-full fixed bg-zinc-200 bg-opacity-20 flex items-center justify-center h-screen top-0 left-0">
-            <dialog open className="w-10/12 relative min-h-[400px] p-3 rounded-lg shadow-lg mx-auto bg-white">
+            <dialog open className="md:w-10/12 w-full relative md:min-h-[400px] h-auto p-3 md:rounded-lg rounded-none mx-4 shadow-lg md:mx-auto bg-white">
                 <button onClick={handleHideModal} className="btn btn-circle btn-sm bg-red-500 hover:bg-red-600 text-white -right-4 -top-4 absolute border-none outline-none"><FontAwesomeIcon icon={faXmark} /></button>
                 <div className="overflow-x-auto bg-white">
                     <table className="table table-xs">

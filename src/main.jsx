@@ -8,7 +8,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Pages from "./components/pages/Pages";
 import Invoice from "./components/pages/Invoice";
 import Login from "./components/authentication/Login";
-import Signup from "./components/authentication/Signup";
 import { Toaster } from "react-hot-toast";
 import PrivateRoute from "./components/pages/PrivateRoute";
 import AuthContext from "./components/context/AuthContext";
@@ -19,6 +18,7 @@ import Author from "./components/dashboard/author/Author";
 import AllUsers from "./components/dashboard/admin/AllUsers";
 import User from "./components/dashboard/user/User";
 import MyAccounts from "./components/dashboard/user/MyAccounts";
+import AddMember from "./components/dashboard/admin/AddMember";
 
 const router = createBrowserRouter([
   {
@@ -55,10 +55,10 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
+  // {
+  //   path: "/signup",
+  //   element: <Signup />,
+  // },
 
   {
     path: "/dashboard",
@@ -71,6 +71,10 @@ const router = createBrowserRouter([
       {
         path:'/dashboard/manage-user',
         element:<AllUsers/>
+      },
+      {
+        path:'/dashboard/add-members',
+        element:<AddMember/>
       },
       {
         path:"/dashboard/author",

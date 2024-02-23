@@ -2,14 +2,14 @@ import { NavLink } from "react-router-dom";
 import useAdmin from "../hooks/useAdmin";
 import useAuthor from "../hooks/useAuthor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartLine, faHouse, faReceipt, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faAddressBook, faChartLine, faHouse, faReceipt, faUsers } from "@fortawesome/free-solid-svg-icons";
 
 const SideBar = ({ children }) => {
   const { isAdmin } = useAdmin();
   const { isAuthor } = useAuthor();
 
   return (
-    <div className="flex p-10 space-x-4 bg-white">
+    <div className="flex space-x-4 bg-white">
       <div className="w-[30%]">
         <div className="bg-white border-r-2 border-gray-300 w-full min-h-screen p-10">
           {/* admin dashboard start */}
@@ -47,6 +47,17 @@ const SideBar = ({ children }) => {
               >
                 <FontAwesomeIcon className="font-bold" icon={faReceipt}/>
                 <span className="mx-2">My Accounts</span>
+              </NavLink>
+              <NavLink
+                to="/dashboard/add-members"
+                className={({ isActive }) =>
+                  isActive
+                    ? "bg-black text-white px-4 py-2 cursor-pointer"
+                    : " bg-none px-4 py-2 cursor-pointer"
+                }
+              >
+                <FontAwesomeIcon className="font-bold" icon={faAddressBook}/>
+                <span className="mx-2">Add Members</span>
               </NavLink>
               <NavLink
                 to="/"
