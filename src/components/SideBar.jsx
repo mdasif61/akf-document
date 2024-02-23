@@ -2,16 +2,19 @@ import { NavLink } from "react-router-dom";
 import useAdmin from "../hooks/useAdmin";
 import useAuthor from "../hooks/useAuthor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAddressBook, faChartLine, faHouse, faReceipt, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faAddressBook, faAngleDoubleRight, faChartLine, faHouse, faReceipt, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 const SideBar = ({ children }) => {
   const { isAdmin } = useAdmin();
   const { isAuthor } = useAuthor();
+  const [showArrow,setShowArrow]=useState(false)
 
   return (
-    <div className="flex space-x-4 bg-white">
-      <div className="w-[30%]">
-        <div className="bg-white border-r-2 border-gray-300 w-full min-h-screen p-10">
+    <div className="flex md:space-x-4 bg-white">
+      <FontAwesomeIcon onClick={()=>setShowArrow(!showArrow)} className="text-2xl font-bold text-blue-700 fixed top-5 bg-blue-100 rounded-full border border-blue-700 p-3 bg-opacity-70 left-5 z-50 md:hidden" icon={faAngleDoubleRight}/>
+      <div className={`md:w-[30%] absolute md:left-0 md:relative ${showArrow?"left-0 z-40":"z-40 -left-96"} `}>
+        <div className="bg-white border-r-2 border-gray-300 w-full min-h-screen md:p-10 p-3">
           {/* admin dashboard start */}
           {isAdmin && (
             <div className="space-y-2 font-semibold flex flex-col text-gray-500 text-lg">
@@ -114,7 +117,7 @@ const SideBar = ({ children }) => {
           )}
         </div>
       </div>
-      <div className="w-[70%] bg-white">{children}</div>
+      <div className="md:w-[70%] w-full bg-white">{children}</div>
     </div>
   );
 };

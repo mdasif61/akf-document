@@ -188,51 +188,51 @@ const Home = () => {
 
   return (
     <div className="w-full min-h-screen bg-white flex items-center justify-center">
-      <div className="p-5 bg-gray-100 min-h-screen w-full mx-auto">
+      <div className="md:p-5 bg-gray-100 min-h-screen w-full mx-auto">
         <div className="w-full">
           {member.length > 0 ? (
-            <div className="flex w-full p-5 bg-blue-600 items-center">
-              <div className="flex-1">
+            <div className="flex md:flex-row space-y-4 flex-col w-full md:p-5 p-2 bg-blue-600 items-center">
+              <div className="md:flex-1 w-full">
                 {member.slice(0, 1).map((head) => {
                   return (
                     <form
                       key={head._id}
-                      className="items-center flex  top-20 justify-between"
+                      className="w-full grid md:grid-cols-3"
                     >
-                      <div>
+                      <div className="md:w-auto w-full">
                         <input
                           defaultValue={head.month}
                           onChange={(e) => {
                             updateMember(head._id, { month: e.target.value });
                           }}
-                          className="h-12 border-b border-white text-white bg-transparent focus:outline-none py-2 font-bold text-xl"
+                          className="md:h-12 h-10 md:w-auto w-full border-b border-white text-white bg-transparent focus:outline-none py-2 font-bold md:text-xl text-lg"
                           type="text"
                           name="month"
                           id=""
                           placeholder="MONTH NAME"
                         />
                       </div>
-                      <div>
+                      <div className="md:w-auto w-full">
                         <input
                           readOnly
                           value={"Monthly Account"}
                           onChange={(e) => {
                             updateMember(head._id, { account: e.target.value });
                           }}
-                          className="h-12 focus:outline-none bg-transparent text-white border-b border-white py-2 font-bold text-xl"
+                          className="md:h-12 h-10 md:w-auto w-full focus:outline-none bg-transparent text-white border-b border-white py-2 font-bold md:text-xl text-lg"
                           type="text"
                           name="account"
                           id=""
                           placeholder="MONTHLY ACCOUNT"
                         />
                       </div>
-                      <div>
+                      <div className="md:w-auto w-full">
                         <input
                           defaultValue={head.year}
                           onChange={(e) => {
                             updateMember(head._id, { year: e.target.value });
                           }}
-                          className="h-12 focus:outline-none border-b text-white border-white bg-transparent py-2 font-bold text-xl"
+                          className="md:h-12 h-10 md:w-auto w-full focus:outline-none border-b text-white border-white bg-transparent py-2 font-bold md:text-xl text-lg"
                           type="text"
                           name="year"
                           id=""
@@ -248,7 +248,7 @@ const Home = () => {
                 disabled={isSaveDisabled()}
                 onClick={handleSubmit}
                 type="submit"
-                className="btn bg-blue-400 border-none outline-none ml-5 hover:bg-blue-700 h-12 rounded-none text-white"
+                className="btn bg-blue-400 border-none outline-none md:ml-5 hover:bg-blue-700 h-12 md:w-auto w-full rounded-none text-white"
               >
                 SAVE
               </button>
