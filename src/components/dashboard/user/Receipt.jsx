@@ -20,7 +20,7 @@ const Receipt = ({ month, currentUser }) => {
     <div ref={documentPrint} className="bg-white my-2 border w-full">
       <div className="relative"> 
         <div className="bg-black p-2 text-center">
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="md:text-2xl text-lg font-bold text-white">
             {`Alor Kafela Foundation - ${month.month} - ${month.year}`}
           </h1>
         </div>
@@ -63,7 +63,7 @@ const Receipt = ({ month, currentUser }) => {
         </div>
         <button
           onClick={handleDownloadInvoice}
-          className="btn btn-xs absolute bottom-5 left-5 rounded-none hover:bg-transparent hover:border hover:border-gray-600 hover:text-gray-800"
+          className="btn btn-xs absolute md:bottom-5 bottom-2 left-5 rounded-none hover:bg-transparent hover:border hover:border-gray-600 hover:text-gray-800"
         >
           Download <FontAwesomeIcon icon={faDownload} />
         </button>

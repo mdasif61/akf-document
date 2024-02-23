@@ -113,26 +113,26 @@ const AddMember = () => {
             <div className='bg-white flex items-center justify-center flex-col min-h-screen w-full'>
                 <form onSubmit={handleSubmit} className='w-10/12 mx-auto p-10 flex flex-col justify-center bg-gray-50 border-gray-200 border space-y-8 items-center'>
                     <h1 className='text-xl font-bold text-black'>Add Member</h1>
-                    <div className='w-3/4 h-12 mx-auto'>
+                    <div className='md:w-3/4 w-full h-12 mx-auto'>
                         <label htmlFor="name"><span className='font-semibold text-black'>Member Name</span></label><br />
                         <input className='px-4 w-full h-full focus:outline-none border bg-white focus:bg-gray-200 text-black font-semibold' type="text" name="name" id="" placeholder='Enter Your Name' />
                     </div>
 
-                    <div className='w-3/4 h-12 mx-auto'>
+                    <div className='md:w-3/4 w-full h-12 mx-auto'>
                         <label htmlFor="email"><span className='font-semibold text-black'>Member Email</span></label><br />
                         <input className='px-4 w-full h-full focus:outline-none border bg-white focus:bg-gray-200 text-black font-semibold' type="email" name="email" id="" placeholder='Enter Your Email' />
                     </div>
 
-                    <div className='w-3/4 h-12 mx-auto'>
+                    <div className='md:w-3/4 w-full h-12 mx-auto'>
                         <label htmlFor="email"><span className='font-semibold text-black'>Member Password</span></label><br />
                         <input className='px-4 w-full h-full focus:outline-none border bg-white focus:bg-gray-200 text-black font-semibold' type="password" name="password" id="" placeholder='Password' />
                     </div>
 
-                    <div className='w-3/4 h-12 mx-auto'>
+                    <div className='md:w-3/4 w-full h-12 mx-auto'>
                         <label htmlFor="email"><span className='font-semibold text-black'>Member Photo</span></label><br />
                         <input onChange={(e) => photoDetails(e.target.files[0])} type="file" className="file-input file-input-bordered w-full focus:outline-none rounded-none bg-transparent" />
                     </div>
-                    <button disabled={loading} type='submit' className='btn w-3/4 mx-auto'>Add Member</button>
+                    <button disabled={loading} type='submit' className='btn md:w-3/4 w-full mx-auto'>Add Member</button>
                 </form>
             </div>
         </SideBar>

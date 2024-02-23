@@ -37,8 +37,8 @@ const MyAccounts = () => {
 
   return (
     <SideBar>
-      <div className="w-full rounded-lg min-h-[100px] bg-gradient-to-t p-5 from-blue-100 to-transparent">
-        <div className="flex items-center gap-4 justify-evenly">
+      <div className="w-full md:rounded-lg rounded-none min-h-[100px] bg-gradient-to-t p-5 from-blue-100 to-transparent">
+        <div className="md:flex items-center md:gap-4 gap-2 justify-evenly grid grid-cols-2">
           <div className="w-full rounded-lg space-y-1 flex items-center justify-center flex-col h-[100px] bg-gray-800">
             <h1 className="text-4xl font-bold text-white">
               ${myData?.totalFee || 0}
@@ -65,9 +65,9 @@ const MyAccounts = () => {
           </div>
         </div>
       </div>
-      <div className={`w-full bg-gradient-to-t my-2 from-blue-500 to-blue-900 rounded-lg p-5`}>
+      <div className={`w-full bg-gradient-to-t my-2 from-blue-500 to-blue-900 md:rounded-lg rounded-none p-5`}>
         <div>
-          <ul className="grid grid-cols-6 text-white">
+          <ul className="grid md:grid-cols-6 grid-cols-3 text-white">
             <li className="flex items-center">
               <input
                 onChange={(e) => handleMonth(e.target.checked, e.target.value)}

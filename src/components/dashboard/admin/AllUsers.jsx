@@ -34,22 +34,22 @@ const AllUsers = () => {
           <input
             onChange={(e) => setSearchData(e.target.value)}
             type="search"
-            className="w-full bg-white border mb-4 py-2 px-4 focus:border-gray-300 focus:border-1 outline-none"
+            className="w-full bg-white border md:mb-4 my-4 py-2 px-4 focus:border-gray-300 focus:border-1 outline-none"
             placeholder="Search user..."
             name=""
             id=""
           />
         </div>
         <hr className="mb-4" />
-        {!userLoading ? (
-          mainUser?.map((user) => (
-            <SingleUser
-              key={user._id}
-              user={user}
-              refetch={refetch}
-            ></SingleUser>
-          ))
-        ) : (
+        {!userLoading ? <div className="grid grid-cols-2 md:grid-cols-none gap-2 md:gap-0">
+          {mainUser?.map((user) => (
+          <SingleUser
+            key={user._id}
+            user={user}
+            refetch={refetch}
+          ></SingleUser>
+          ))}
+        </div> : (
           <div className="w-full h-screen flex items-center justify-center">
             <div className="flex flex-col items-center">
               <span className="loading loading-spinner loading-lg"></span>

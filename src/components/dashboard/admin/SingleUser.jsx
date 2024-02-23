@@ -58,7 +58,7 @@ const SingleUser = ({ user, refetch }) => {
   };
 
   return (
-    <div className="bg-gray-100 relative cursor-pointer flex items-center justify-between border p-2 mb-2">
+    <div className="bg-gray-100 relative cursor-pointer flex items-center justify-between md:flex-row flex-col space-y-2 md:space-y-0 border md:p-2 py-4 mb-2">
       <div
         onClick={() => deleteUser(user._id)}
         className="flex items-center justify-center"
@@ -68,13 +68,13 @@ const SingleUser = ({ user, refetch }) => {
           icon={faTrashAlt}
         />
       </div>
-      <div className="avatar flex items-center">
-        <div title={user?.email} className="w-10 rounded-full border-2">
+      <div className="avatar flex md:flex-row flex-col items-center">
+        <div title={user?.email} className="md:w-10 w-24 rounded-full border-2">
           <img src={user?.photo || defaultProfile} alt="profile" />
         </div>
-        <p className="text-gray-600 ml-4 font-bold">{user?.name}</p>
+        <p className="text-gray-600 md:ml-4 font-bold">{user?.name}</p>
       </div>
-      <p className=" ml-4 text-white font-bold badge badge-primary">
+      <p className="md:ml-4 text-white font-bold badge badge-primary">
         {user?.role}
       </p>
       <p className="text-gray-600 mx-2">{user?.email}</p>
