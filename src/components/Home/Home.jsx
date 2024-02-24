@@ -65,7 +65,7 @@ const Home = () => {
 
   const handleSubmit = async () => {
     await axiosProtact
-      .post(`http://localhost:5000/api/member/pages/`, {
+      .post(`https://akf-document-server.vercel.app/api/member/pages/`, {
         month,
         account,
         year,
@@ -76,9 +76,12 @@ const Home = () => {
           refetch();
           pageRefetch();
           axiosProtact
-            .delete("http://localhost:5000/api/member/delete-all", {
-              data: { allUser },
-            })
+            .delete(
+              "https://akf-document-server.vercel.app/api/member/delete-all",
+              {
+                data: { allUser },
+              }
+            )
             .then((res) => {
               if (res.data.deletedCount > 0) {
                 refetch();
@@ -87,7 +90,7 @@ const Home = () => {
             });
           axiosProtact
             .patch(
-              `http://localhost:5000/api/member/fixed-user-row/${member.map(
+              `https://akf-document-server.vercel.app/api/member/fixed-user-row/${member.map(
                 (user) => user._id
               )}`,
               blankData
@@ -96,7 +99,7 @@ const Home = () => {
               if (res.data.modifiedCount > 0) {
                 refetch();
                 pageRefetch();
-                window.location.reload()
+                window.location.reload();
               }
             });
         }
@@ -105,7 +108,10 @@ const Home = () => {
 
   const addMembers = () => {
     axios
-      .post("http://localhost:5000/api/member/members", blankData)
+      .post(
+        "https://akf-document-server.vercel.app/api/member/members",
+        blankData
+      )
       .then((res) => {
         refetch();
         if (res.data._id) {
@@ -121,7 +127,7 @@ const Home = () => {
     async (id) => {
       try {
         const res = await axios.delete(
-          `http://localhost:5000/api/member/delete-member/${id}`
+          `https://akf-document-server.vercel.app/api/member/delete-member/${id}`
         );
         return res.data;
       } catch (error) {
@@ -144,7 +150,7 @@ const Home = () => {
       return user.name === users.name || user.name === currentUser.name;
     });
 
-    if(findDatabaseUser) {
+    if (findDatabaseUser) {
       toast.error("It is permanent user! Not valid for delete");
       return;
     } else {
@@ -166,7 +172,7 @@ const Home = () => {
     async ({ id, data }) => {
       try {
         const res = await axios.patch(
-          `http://localhost:5000/api/member/update-member/${id}`,
+          `https://akf-document-server.vercel.app/api/member/update-member/${id}`,
           { data: data }
         );
         return res.data;
@@ -195,10 +201,7 @@ const Home = () => {
               <div className="md:flex-1 w-full">
                 {member.slice(0, 1).map((head) => {
                   return (
-                    <form
-                      key={head._id}
-                      className="w-full grid md:grid-cols-3"
-                    >
+                    <form key={head._id} className="w-full grid md:grid-cols-3">
                       <div className="md:w-auto w-full">
                         <input
                           defaultValue={head.month}

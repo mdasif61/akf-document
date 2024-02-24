@@ -17,7 +17,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/member/logout",
+        "https://akf-document-server.vercel.app/api/member/logout",
         null,
         {
           headers: {
@@ -127,7 +127,7 @@ const Navbar = () => {
                 </div>
               </div>
               <p className="font-bold">
-              {currentUser?.name || "login not logged!"}
+                {currentUser?.name || "login not logged!"}
               </p>
             </div>
           </li>

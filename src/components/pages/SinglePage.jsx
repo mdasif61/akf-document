@@ -24,12 +24,15 @@ const SinglePage = ({ page, refetch }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:5000/api/member/month-delete/${id}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-              "Content-Type": "application/json",
-            },
-          })
+          .delete(
+            `https://akf-document-server.vercel.app/api/member/month-delete/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+                "Content-Type": "application/json",
+              },
+            }
+          )
           .then((res) => {
             if (res.data.deletedCount > 0) {
               refetch();
@@ -53,7 +56,9 @@ const SinglePage = ({ page, refetch }) => {
     <div className="mx-auto p-1">
       <div className="w-full flex bg-gradient-to-t from-black to-blue-500 duration-300 rounded-md hover:bg-blue-700 space-x-4 py-3 px-5 hover:cursor-pointer">
         <div className="flex-1">
-          <h1 className="text-lg font-bold text-white">{page.month} - {page.year}</h1>
+          <h1 className="text-lg font-bold text-white">
+            {page.month} - {page.year}
+          </h1>
         </div>
         <div className="bg-blue-100 shadow-lg rounded-full px-2 flex items-center justify-center">
           <FontAwesomeIcon

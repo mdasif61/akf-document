@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const axiosProtact = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://akf-document-server.vercel.app",
 });
 
 const useAxiosProtact = () => {
