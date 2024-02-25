@@ -35,9 +35,10 @@ const Login = () => {
         { email, password },
         config
       );
-      toast.success("login successfull");
+      console.log(data)
       console.log(statusText)
       if (statusText == "OK") {
+        toast.success("login successfull");
         localStorage.setItem("jwtToken", data?.token);
         setLoading(false);
         navigate(from);
