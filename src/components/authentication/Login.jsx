@@ -30,14 +30,12 @@ const Login = () => {
           "Content-type": "application/json",
         },
       };
-      const { data, statusText } = await axios.post(
+      const { data, status } = await axios.post(
         "https://akf-document-server.vercel.app/api/member/login",
         { email, password },
         config
       );
-      console.log(data)
-      console.log(statusText)
-      if (statusText == "OK") {
+      if (status == 200) {
         toast.success("login successfull");
         localStorage.setItem("jwtToken", data?.token);
         setLoading(false);
