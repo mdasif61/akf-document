@@ -108,8 +108,10 @@ const SingleUser = ({ user, refetch }) => {
         <div
           id="dropdownToggle"
           className={`z-10 ${
-            isDropDownOpen ? "absolute shadow-xl right-0" : "hidden"
-          } bg-white divide-y divide-gray-100 rounded-lg shadow w-72`}
+            isDropDownOpen
+              ? "absolute shadow-xl md:right-0 left-0 md:left-auto"
+              : "hidden"
+          } bg-white divide-y divide-gray-100 rounded-lg shadow md:w-72 w-56`}
         >
           <ul
             className="p-3 space-y-1 text-sm text-gray-900"

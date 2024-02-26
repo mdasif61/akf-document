@@ -121,7 +121,7 @@ const AddMember = () => {
       <div className="bg-white flex items-center justify-center flex-col min-h-screen w-full">
         <form
           onSubmit={handleSubmit}
-          className="w-10/12 mx-auto p-10 flex flex-col justify-center bg-gray-50 border-gray-200 border space-y-8 items-center"
+          className="md:w-10/12 w-full mx-auto p-10 flex flex-col justify-center md:bg-gray-50 bg-white border-gray-200 md:border space-y-8 items-center"
         >
           <h1 className="text-xl font-bold text-black">Add Member</h1>
           <div className="md:w-3/4 w-full h-12 mx-auto">
@@ -180,7 +180,7 @@ const AddMember = () => {
           <button
             disabled={loading}
             type="submit"
-            className="btn md:w-3/4 w-full mx-auto"
+            className="btn text-white bg-gradient-to-r from-blue-800 to-purple-800 md:w-3/4 w-full mx-auto"
           >
             Add Member
           </button>

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import defaultProfile from "../../../../public/images/profile-web.jpg";
 import { faEnvelope, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
+import { LinearGradient } from "react-text-gradients";
 
 const User = () => {
   const { currentUser } = useContext(UserProvider);
@@ -21,8 +22,10 @@ const User = () => {
           </div>
         </div>
         <h1 className="text-2xl my-7 font-semibold text-gray-700">
-          Hi <span className="font-bold">{currentUser?.name}!</span> What&apos;s
-          Your Next Plan?
+          <LinearGradient gradient={["to left", "#19acff ,#ff68f0"]}>
+            Hi <span className="font-bold">{currentUser?.name}!</span>{" "}
+            What&apos;s Your Next Plan?
+          </LinearGradient>
         </h1>
         <div className="mb-4">
           <Link to="/dashboard/my-accounts">
