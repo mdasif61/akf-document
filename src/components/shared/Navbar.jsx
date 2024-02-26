@@ -6,6 +6,7 @@ import { UserProvider } from "../context/AuthContext";
 import profiles from "../../../public/images/profile-web.jpg";
 import useAdmin from "../../hooks/useAdmin";
 import useAuthor from "../../hooks/useAuthor";
+import { LinearGradient } from "react-text-gradients";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -37,72 +38,78 @@ const Navbar = () => {
   };
 
   return (
-    <div className="p-4 text-end top-0 sticky bg-black z-50">
-      <ul className="flex items-center justify-end text-white space-x-5">
-        <NavLink
-          className={({ isActive }) =>
-            isActive
-              ? "bg-gray-700 transition-all duration-300 px-4 py-2 hover:bg-gray-800 text-white"
-              : "border px-4 py-2 border-gray-700 hover:bg-gray-700 text-white transition-all duration-300"
-          }
-          to="/"
-        >
-          <li className="cursor-pointer">Home</li>
-        </NavLink>
+    <div className="py-3 px-4 text-end top-0 sticky bg-black z-50">
+      <div className="flex items-center md:justify-end justify-between">
+        <ul className="md:flex hidden items-center flex-col md:flex-row justify-end text-white space-x-5">
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "bg-gray-700 transition-all duration-300 px-4 py-2 hover:bg-gray-800 text-white"
+                : "border px-4 py-2 border-gray-700 hover:bg-gray-700 text-white transition-all duration-300"
+            }
+            to="/"
+          >
+            <li className="cursor-pointer">Home</li>
+          </NavLink>
 
-        {(isAdmin || isAuthor) && (
-          <>
+          {(isAdmin || isAuthor) && (
+            <>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive
+                    ? "bg-gray-700 transition-all duration-300 px-4 py-2 hover:bg-gray-800 text-white"
+                    : "border px-4 py-2 border-gray-700 hover:bg-gray-700 text-white transition-all duration-300"
+                }
+                to="/pages"
+              >
+                <li className="cursor-pointer">Pages</li>
+              </NavLink>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive
+                    ? "bg-gray-700 transition-all duration-300 px-4 py-2 hover:bg-gray-800 text-white"
+                    : "border px-4 py-2 border-gray-700 hover:bg-gray-700 text-white transition-all duration-300"
+                }
+                to="/create"
+              >
+                <li className="cursor-pointer">Create Page</li>
+              </NavLink>
+            </>
+          )}
+
+          {currentUser && isAdmin && (
             <NavLink
-              className={({ isActive }) =>
-                isActive
-                  ? "bg-gray-700 transition-all duration-300 px-4 py-2 hover:bg-gray-800 text-white"
-                  : "border px-4 py-2 border-gray-700 hover:bg-gray-700 text-white transition-all duration-300"
-              }
-              to="/pages"
+              className="bg-indigo-600 py-2 px-5 hover:bg-indigo-800 transition-all duration-300 font-bold text-white"
+              to={`/dashboard/admin`}
             >
-              <li className="cursor-pointer">Pages</li>
+              <li className="cursor-pointer">Dashboard</li>
             </NavLink>
+          )}
+
+          {currentUser && isAuthor && (
             <NavLink
-              className={({ isActive }) =>
-                isActive
-                  ? "bg-gray-700 transition-all duration-300 px-4 py-2 hover:bg-gray-800 text-white"
-                  : "border px-4 py-2 border-gray-700 hover:bg-gray-700 text-white transition-all duration-300"
-              }
-              to="/create"
+              className="bg-indigo-600 py-2 px-5 hover:bg-indigo-800 transition-all duration-300 font-bold text-white"
+              to={"/dashboard/author"}
             >
-              <li className="cursor-pointer">Create Page</li>
+              <li className="cursor-pointer">Dashboard</li>
             </NavLink>
-          </>
-        )}
+          )}
 
-        {currentUser && isAdmin && (
-          <NavLink
-            className="bg-indigo-600 py-2 px-5 hover:bg-indigo-800 transition-all duration-300 font-bold text-white"
-            to={`/dashboard/admin`}
-          >
-            <li className="cursor-pointer">Dashboard</li>
-          </NavLink>
-        )}
-
-        {currentUser && isAuthor && (
-          <NavLink
-            className="bg-indigo-600 py-2 px-5 hover:bg-indigo-800 transition-all duration-300 font-bold text-white"
-            to={"/dashboard/author"}
-          >
-            <li className="cursor-pointer">Dashboard</li>
-          </NavLink>
-        )}
-
-        {currentUser && !isAdmin && !isAuthor && (
-          <NavLink
-            className="bg-indigo-600 py-2 px-5 hover:bg-indigo-800 transition-all duration-300 font-bold text-white"
-            to={`/dashboard/user-dashboard`}
-          >
-            <li className="cursor-pointer">Dashboard</li>
-          </NavLink>
-        )}
-
-        <li onClick={() => setUserProfile(!userProfile)}>
+          {currentUser && !isAdmin && !isAuthor && (
+            <NavLink
+              className="bg-indigo-600 py-2 px-5 hover:bg-indigo-800 transition-all duration-300 font-bold text-white"
+              to={`/dashboard/user-dashboard`}
+            >
+              <li className="cursor-pointer">Dashboard</li>
+            </NavLink>
+          )}
+        </ul>
+        <h1 className="md:hidden border-l-2 pl-2 border-[#ff68f0] font-bold text-2xl">
+          <LinearGradient gradient={["to left", "#19acff ,#ff68f0"]}>
+            <Link to="/">Alor Kafela Foundation</Link>
+          </LinearGradient>
+        </h1>
+        <div className="ml-5" onClick={() => setUserProfile(!userProfile)}>
           <div className="cursor-pointer">
             <div title={currentUser?.name} className="avatar">
               <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
@@ -110,11 +117,13 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-        </li>
-      </ul>
+        </div>
+      </div>
+
+      {/* start hide-show-menu */}
 
       <div
-        className={`fixed bg-gray-800 flex rounded-xl items-center justify-between duration-300 w-56 px-4 py-8 ${
+        className={`fixed bg-gradient-to-t from-blue-950 via-purple-950 to-fuchsia-900 flex rounded-lg items-center justify-between duration-300 w-56 px-4 py-8 ${
           userProfile ? "right-0" : "-right-full"
         } top-20`}
       >
@@ -126,36 +135,87 @@ const Navbar = () => {
                   <img src={currentUser?.photo || profiles} />
                 </div>
               </div>
-              <p className="font-bold">
+              <p className="font-bold text-white">
                 {currentUser?.name || "login not logged!"}
               </p>
             </div>
           </li>
           <li className="w-full">
-            {currentUser ? (
+            <div className="text-white md:hidden">
+              <ul className="space-y-1 flex flex-col">
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? "bg-white rounded-full bg-opacity-10 transition-all duration-300 px-4 py-1.5"
+                      : "px-4 py-1.5 text-white transition-all duration-300"
+                  }
+                  to="/"
+                >
+                  <li className="cursor-pointer">Home</li>
+                </NavLink>
+
+                {(isAdmin || isAuthor) && (
+                  <>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? "bg-white rounded-full bg-opacity-10 transition-all duration-300 px-4 py-1.5"
+                          : "px-4 py-1.5 text-white transition-all duration-300"
+                      }
+                      to="/pages"
+                    >
+                      <li className="cursor-pointer">Pages</li>
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? "bg-white rounded-full bg-opacity-10 transition-all duration-300 px-4 py-1.5"
+                          : "px-4 py-1.5 text-white transition-all duration-300"
+                      }
+                      to="/create"
+                    >
+                      <li className="cursor-pointer">Create Page</li>
+                    </NavLink>
+                  </>
+                )}
+
+                {currentUser && isAdmin && (
+                  <NavLink
+                    className="py-1.5 px-5 rounded-full font-bold text-white"
+                    to={`/dashboard/admin`}
+                  >
+                    <li className="cursor-pointer">Dashboard</li>
+                  </NavLink>
+                )}
+
+                {currentUser && isAuthor && (
+                  <NavLink
+                    className="py-1.5 px-5 font-bold text-white"
+                    to={"/dashboard/author"}
+                  >
+                    <li className="cursor-pointer">Dashboard</li>
+                  </NavLink>
+                )}
+
+                {currentUser && !isAdmin && !isAuthor && (
+                  <NavLink
+                    className="py-1.5 px-5font-bold text-white"
+                    to={`/dashboard/user-dashboard`}
+                  >
+                    <li className="cursor-pointer">Dashboard</li>
+                  </NavLink>
+                )}
+              </ul>
+            </div>
+            {currentUser && (
               <button
                 onClick={handleLogout}
                 className="btn btn-block btn-primary rounded-full mt-4"
               >
                 Logout
               </button>
-            ) : (
-              <Link to="/login">
-                <button className="btn btn-primary btn-block mt-4 rounded-full">
-                  Login
-                </button>
-              </Link>
             )}
           </li>
-          {!currentUser && (
-            <li className="w-full">
-              <Link to="/signup">
-                <button className="btn bg-red-600 btn-block border-none text-white outline-none rounded-full">
-                  Signup
-                </button>
-              </Link>
-            </li>
-          )}
         </ul>
       </div>
     </div>
