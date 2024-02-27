@@ -3,8 +3,10 @@ import logo from "../../../public/images/akf logo.jpg";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import useTitle from "../../hooks/useTitle";
 
 const Login = () => {
+  useTitle('AKF- Login')
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -13,7 +15,7 @@ const Login = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
     setLoading(true);
-
+    
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;

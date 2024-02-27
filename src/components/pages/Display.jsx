@@ -4,11 +4,13 @@ import { useLottie } from "lottie-react";
 import { Link, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { UserProvider } from "../context/AuthContext";
+import useTitle from "../../hooks/useTitle";
 
 const Display = () => {
   const location = useLocation();
   const { currentUser } = useContext(UserProvider);
   const loginAndSignUpCond = location.pathname !== "/" || !currentUser;
+  useTitle(loginAndSignUpCond?'AKF- Started':"AKF- Home")
 
   const options = {
     animationData: loginAnim,

@@ -4,8 +4,10 @@ import SinglePage from "./SinglePage";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import useTitle from "../../hooks/useTitle";
 
 const Pages = () => {
+  useTitle('AKF- Pages')
   const [searchWidth, setSearchWidth] = useState(false);
   const { pages, isLoading, isFetching, refetch } = usePage();
   const [searchText, setSearchText] = useState("");

@@ -3,8 +3,10 @@ import useAllUserGet from "../../../hooks/useAllUserGet";
 import SideBar from "../../SideBar";
 import SingleUser from "./SingleUser";
 import useAxiosProtact from "../../../hooks/useAxiosProtact";
+import useTitle from "../../../hooks/useTitle";
 
 const AllUsers = () => {
+  useTitle('AKF- Manage Users')
   const { allUser, userLoading, refetch } = useAllUserGet();
   const [axiosProtact] = useAxiosProtact();
   const [searchData, setSearchData] = useState("");

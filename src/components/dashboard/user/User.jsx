@@ -6,8 +6,10 @@ import defaultProfile from "../../../../public/images/profile-web.jpg";
 import { faEnvelope, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { LinearGradient } from "react-text-gradients";
+import useTitle from "../../../hooks/useTitle";
 
 const User = () => {
+  useTitle("AKF- User Dashboard")
   const { currentUser } = useContext(UserProvider);
 
   return (

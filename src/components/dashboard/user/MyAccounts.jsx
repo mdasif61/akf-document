@@ -4,8 +4,10 @@ import useSingleMonth from "../../../hooks/useSingleMonth";
 import SideBar from "../../SideBar";
 import { UserProvider } from "../../context/AuthContext";
 import Receipt from "./Receipt";
+import useTitle from "../../../hooks/useTitle";
 
 const MyAccounts = () => {
+  useTitle('AKF- My Accounts')
   const { myData } = useMyAccount();
   const [monthName, setMonthName] = useState("");
   const [yearValue, setYearValue] = useState("");

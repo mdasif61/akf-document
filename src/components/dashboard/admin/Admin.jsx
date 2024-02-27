@@ -8,8 +8,10 @@ import { useContext } from "react";
 import { UserProvider } from "../../context/AuthContext";
 import defaultProfile from "../../../../public/images/profile-web.jpg";
 import { LinearGradient } from "react-text-gradients";
+import useTitle from "../../../hooks/useTitle";
 
 const Admin = () => {
+  useTitle('AKF- Admin Dashboard')
   const { currentUser } = useContext(UserProvider);
 
   const options = {

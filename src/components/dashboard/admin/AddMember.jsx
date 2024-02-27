@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import useTitle from "../../../hooks/useTitle";
 
 const AddMember = () => {
+  useTitle("AKF- Add Members")
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState("");
   const navigate = useNavigate();

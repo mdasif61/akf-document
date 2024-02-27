@@ -11,8 +11,10 @@ import useAllUserGet from "../../hooks/useAllUserGet";
 import toast from "react-hot-toast";
 import useAxiosProtact from "../../hooks/useAxiosProtact";
 import { UserProvider } from "../context/AuthContext";
+import useTitle from "../../hooks/useTitle";
 
 const Home = () => {
+  useTitle('AKF- Create')
   const [axiosProtact] = useAxiosProtact();
   const { pages, refetch: pageRefetch } = usePage();
   const [showDelete, setShowDelete] = useState(false);
