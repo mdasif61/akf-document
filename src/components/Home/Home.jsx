@@ -72,7 +72,7 @@ const Home = () => {
         member,
       })
       .then((res) => {
-        if (res.statusText === "Created") {
+        if (res.status === 201) {
           refetch();
           pageRefetch();
           axiosProtact
@@ -96,6 +96,7 @@ const Home = () => {
               blankData
             )
             .then((res) => {
+              console.log(res.data)
               if (res.data.modifiedCount > 0) {
                 refetch();
                 pageRefetch();
